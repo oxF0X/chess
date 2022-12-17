@@ -15,7 +15,8 @@
 #define SIZE 8 
 #define DEFAULT_MAP "RNBKQBNRPPPPPPPP################################pppppppprnbkqbnr1"
 #define INVALID_MOVE 0
-#define VALID_MOVE_SHAH_ON_OPPONENT 2
+#define VALID_MOVE_SHAH_ON_OPPONENT 1
+#define NO_SRC_FIGURE 2
 #define TEAM_FIGURE_ON_DST_LOCATION 3
 #define MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM 4
 #define	ILLEGAL_MOVE 6	

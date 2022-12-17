@@ -16,7 +16,7 @@ public:
 	std::string getLocation() const;
 
 protected:
-	bool isWhite;
-	std::string location;
+	bool _isWhite;
+	std::string _location;
 
 };

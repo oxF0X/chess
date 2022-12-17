@@ -2,7 +2,6 @@
 
 int Board::_numOfBoards = 0;
 
-
 Board::Board(std::string toolsMap)
 {
 	if (this->_numOfBoards)
