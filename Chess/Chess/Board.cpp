@@ -14,9 +14,10 @@ Board::Board(std::string toolsMap)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-			 this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + j], i * SIZE + j);
+			 this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + j], MathUtils::intLocationToStr(j, i));
 		}
 	}
+
 }
 
 int Board::move(std::string location)
@@ -28,13 +29,21 @@ int Board::move(std::string location)
 	srcFigure = this->getFigure(src);
 	if (srcFigure == nullptr)
 	{
-		return
+		return;
 	}
 }
 
 Figure* Board::getFigure(std::string location) const
 {
-	if()
+	Figure* newFigure = nullptr;
+	int row = (int)(location[0]) - A_ASCII_CODE;
+	int col = (int)(location[1]) --;
+	
+	if (this->_figuresArr[row, col] == nullptr || (*this->_figuresArr[row, col])->getColor() == this->_isWhiteOrBlack)
+	{
+		return newFigure;
+	}
+	return (*this->_figuresArr[row, col]);
 }
 
 bool Board::isShah()
@@ -47,6 +56,7 @@ Figure* Board::getTools() const
 	return nullptr;
 }
 
+
 Figure* Board::charToFigure(char f, std::string location) const
 {
 	Figure* newFigure = nullptr;
@@ -55,9 +65,62 @@ Figure* Board::charToFigure(char f, std::string location) const
 	case KING:
 		if (isupper(f))
 		{
-			newFigure = new King(location, BLACK)
+			newFigure = new King(location, BLACK);
+			break;
 		}
+		newFigure = new King(location, WHITE);
+		break;
+
+	case QUEEN:
+		if (isupper(f))
+		{
+			newFigure = new Queen(location, BLACK);
+			break;
+		}
+		newFigure = new Queen(location, WHITE);
+		break;
+
+	case BISHOP:
+		if (isupper(f))
+		{
+			newFigure = new Bishop(location, BLACK);
+			break;
+		}
+		newFigure = new Bishop(location, WHITE);
+		break;
+
+	case ROOK:
+		if (isupper(f))
+		{
+			newFigure = new Rook(location, BLACK);
+			break;
+		}
+		newFigure = new Rook(location, WHITE);
+		break;
+
+	case PAWN:
+		if (isupper(f))
+		{
+			newFigure = new Pawn(location, BLACK);
+			break;
+		}
+		newFigure = new Pawn(location, WHITE);
+		break;
+
+	case KNIGHT:
+		if (isupper(f))
+		{
+			newFigure = new Kinght(location, BLACK);
+			break;
+		}
+		newFigure = new Kinght(location, WHITE);
+		break;
+
+	default:
+		break;
+
 	}
+	return newFigure;
 }
 
 

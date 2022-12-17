@@ -2,7 +2,7 @@
 #include "Rook.h"
 #include "Figure.h"
 
-class Rook : public Figure
+class Rook : virtual public Figure
 {
 public:
 	Rook(std::string location, bool isWhite);

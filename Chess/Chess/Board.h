@@ -26,6 +26,7 @@
 #define ROOK 'r'
 #define KNIGHT 'n'
 #define PAWN 'p'
+#define BISHOP 'b'
 #define EMPTY_LOCATION '#'
 
 

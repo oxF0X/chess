@@ -1,41 +1,15 @@
 ﻿  Bishop.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Bishop.h(4,1): error C2504: 'Figure': base class undefined
   Board.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(18,86): error C2664: 'Figure *Board::charToFigure(char,std::string) const': cannot convert argument 2 from 'int' to 'std::string'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(18,86): message : No constructor could take the source type, or constructor overload resolution was ambiguous
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.h(55,10): message : see declaration of 'Board::charToFigure'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(33,2): error C2059: syntax error: '}'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(38,5): error C2059: syntax error: ')'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59): error C2259: 'King': cannot instantiate abstract class
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\King.h(4): message : see declaration of 'King'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59): message : due to following members:
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59): message : 'int Figure::isValidMove(const std::string &)': is abstract
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Figure.h(12): message : see declaration of 'Figure::isValidMove'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59): message : 'bool Figure::canEat(const std::string &)': is abstract
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Figure.h(13): message : see declaration of 'Figure::canEat'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59,24): error C2259: 'King': cannot instantiate abstract class
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\King.h(4): message : see declaration of 'King'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59,24): message : due to following members:
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59,24): message : 'int Figure::isValidMove(const std::string &)': is abstract
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Figure.h(12): message : see declaration of 'Figure::isValidMove'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59,24): message : 'bool Figure::canEat(const std::string &)': is abstract
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Figure.h(13): message : see declaration of 'Figure::canEat'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(59,24): error C2661: 'King::King': no overloaded function takes 2 arguments
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(60,3): error C2143: syntax error: missing ';' before '}'
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(17,86): error C2664: 'Figure *Board::charToFigure(char,std::string) const': cannot convert argument 2 from 'int' to 'std::string'
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(17,86): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.h(56,10): message : see declaration of 'Board::charToFigure'
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(32,2): error C2059: syntax error: '}'
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(37,5): error C2059: syntax error: ')'
   King.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\King.h(5,1): error C2504: 'Figure': base class undefined
   Figure.cpp
   Knight.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Knight.h(4,1): error C2504: 'Figure': base class undefined
-  MathUtils.cpp
   Pawn.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Pawn.h(4,1): error C2504: 'Figure': base class undefined
   Queen.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Rook.h(4,1): error C2504: 'Figure': base class undefined
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Bishop.h(4,1): error C2504: 'Figure': base class undefined
   Rook.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Rook.h(4,1): error C2504: 'Figure': base class undefined
-  Source.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Source.cpp(17,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
   stdafx.cpp
   Generating Code...

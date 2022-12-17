@@ -1,7 +1,7 @@
 #pragma once
 #include "Figure.h"
 
-class Bishop : public Figure
+class Bishop : virtual public Figure
 {
 public:
 	Bishop(std::string location, bool isWhite);

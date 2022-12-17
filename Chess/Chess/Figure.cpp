@@ -1,9 +1,11 @@
 #include "Figure.h"
 
-Figure::Figure(std::string location, bool isWhite)
+
+
+Figure::Figure(std::string location, bool color)
 {
 	this->_location = location;
-	this->_isWhite = isWhite;
+	this->_color = color;
 }
 
 Figure::~Figure()
@@ -15,9 +17,9 @@ void Figure::setLocation(const std::string& newLocation)
 {
 }
 
-bool Figure::isWhiteColor() const
+bool Figure::getColor() const
 {
-	return false;
+	return this->_color;
 }
 
 std::string Figure::getLocation() const
