@@ -10,3 +10,17 @@ Figure::~Figure()
 {
 	return;
 }
+
+void Figure::setLocation(const std::string& newLocation)
+{
+}
+
+bool Figure::isWhiteColor() const
+{
+	return false;
+}
+
+std::string Figure::getLocation() const
+{
+	return std::string();
+}
