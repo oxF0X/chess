@@ -1,15 +1,2 @@
-﻿  Bishop.cpp
-  Board.cpp
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(17,86): error C2664: 'Figure *Board::charToFigure(char,std::string) const': cannot convert argument 2 from 'int' to 'std::string'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(17,86): message : No constructor could take the source type, or constructor overload resolution was ambiguous
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.h(56,10): message : see declaration of 'Board::charToFigure'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(32,2): error C2059: syntax error: '}'
-C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Board.cpp(37,5): error C2059: syntax error: ')'
-  King.cpp
-  Figure.cpp
-  Knight.cpp
-  Pawn.cpp
-  Queen.cpp
-  Rook.cpp
-  stdafx.cpp
-  Generating Code...
+﻿  Board.cpp
+  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

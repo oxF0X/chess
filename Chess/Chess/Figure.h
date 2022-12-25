@@ -2,21 +2,23 @@
 
 #include <iostream>
 #include <string>
+//#include "Board.h"
 
+
+class Board;
 
 class Figure
 {
 public:
-	Figure(std::string location, bool color);
-	~Figure();
+	Figure(std::string location, bool color, const Board* boardPtr);
+	virtual ~Figure();
 	virtual int isValidMove(const std::string& move) = 0;
-	virtual bool canEat(const std::string& move) = 0;
-	void setLocation(const std::string& newLocation);
 	bool getColor() const;
 	std::string getLocation() const;
+	void setLocation(std::string& location);
 
 protected:
 	bool _color;
 	std::string _location;
-
+	const Board* _boardPtr;
 };

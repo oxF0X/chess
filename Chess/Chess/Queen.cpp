@@ -1,7 +1,7 @@
 #include "Queen.h"
 
 
-Queen::Queen(std::string location, bool isWhite) : Figure(location, isWhite), Rook(location, isWhite), Bishop(location, isWhite)
+Queen::Queen(std::string location, bool isWhite, const Board* boardPtr) : Figure(location, isWhite, boardPtr), Rook(location, isWhite, boardPtr), Bishop(location, isWhite, boardPtr)
 {
 	return;
 }
@@ -9,4 +9,9 @@ Queen::Queen(std::string location, bool isWhite) : Figure(location, isWhite), Ro
 Queen::~Queen()
 {
 	return;
+}
+
+int Queen::isValidMove(const std::string& move)
+{
+	return 0;
 }
