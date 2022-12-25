@@ -13,6 +13,7 @@
 
 #define WHITE false
 #define BLACK true
+#define COLOR_INDEX 65
 #define SIZE 8 
 #define DEFAULT_MAP "RNBKQBNRPPPPPPPP################################pppppppprnbkqbnr1"
 #define VALID_MOVE 0

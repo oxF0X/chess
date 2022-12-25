@@ -7,12 +7,12 @@ int Board::_numOfBoards = 0;
 // CTOR
 Board::Board(std::string toolsMap)
 {
-	this->_whiteOrBlack = WHITE;
+	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
-		{
-			 this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + j], MathUtils::intLocationToStr(j, i));
+		{	
+			this->_figuresArr[i][j] = this->charToFigure(toolsMap[(i * SIZE + abs(j - SIZE + 1))], MathUtils::intLocationToStr(j, i));
 		}
 	}
 
@@ -40,7 +40,7 @@ int Board::move(std::string location)
 	{
 		return INVALID_SRC_FIGURE;
 	}
-	if (this->checkDst(location) == TEAM_FIGURE_ON_DST_LOCATION)
+	if (this->checkDst(dst) == TEAM_FIGURE_ON_DST_LOCATION)
 	{
 		return TEAM_FIGURE_ON_DST_LOCATION;
 	}
@@ -67,7 +67,7 @@ Figure* Board::getSrcFigure(std::string location) const
 {
 	Figure* newFigure = nullptr;
 	int* locationArr = MathUtils::strLocationToInt(location);
-	if (this->isEmpty(locationArr[ROW], locationArr[COL]) || (this->_figuresArr[locationArr[ROW]][locationArr[COL]])->getColor() == this->_whiteOrBlack)
+	if (this->isEmpty(locationArr[ROW], locationArr[COL]) || (this->_figuresArr[locationArr[ROW]][locationArr[COL]])->getColor() != this->_whiteOrBlack)
 	{
 		return newFigure;
 	}
@@ -78,6 +78,7 @@ int Board::checkDst(std::string location) const
 {
 	Figure* newFigure = nullptr;
 	int* locationArr = MathUtils::strLocationToInt(location);
+	bool x = this->isEmpty(locationArr[ROW], locationArr[COL]);
 	if (this->isEmpty(locationArr[ROW],locationArr[COL]) || this->_figuresArr[locationArr[ROW]][locationArr[COL]]->getColor() != this->_whiteOrBlack)
 	{
 		return VALID_MOVE;

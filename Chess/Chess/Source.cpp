@@ -21,10 +21,12 @@ void main()
 	system("Start chessGraphics.exe");
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	// srand(time_t(NULL));
+	std::string map = "r##############################################################R0";
+	//reverse(map.begin(), map.end());
+	//map += "0";
 
-	
 	Pipe p;
-	Board board = Board::getBoard();
+	Board board = Board::getBoard(map);
 	bool isConnect = p.connect();
 	
 	string ans;
@@ -53,6 +55,7 @@ void main()
 	// YOUR CODE
 	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
 	//r##############################################################R0
+	
 	strcpy_s(msgToGraphics, "r##############################################################R0"); // just example...
 	
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
