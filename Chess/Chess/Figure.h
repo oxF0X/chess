@@ -10,15 +10,16 @@ class Board;
 class Figure
 {
 public:
-	Figure(std::string location, bool color, const Board* boardPtr);
+	Figure(const int& row, const int& col, bool color, const Board* boardPtr);
 	virtual ~Figure();
-	virtual int isValidMove(const std::string& move) = 0;
+	virtual int isValidMove(const int& row, const int& col) = 0;
 	bool getColor() const;
 	std::string getLocation() const;
-	void setLocation(std::string& location);
+	void setLocation(const int& row, const int& col);
 
 protected:
 	bool _color;
-	std::string _location;
+	int _row;
+	int _col;
 	const Board* _boardPtr;
 };

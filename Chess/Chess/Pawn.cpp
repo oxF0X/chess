@@ -1,6 +1,6 @@
 #include "Pawn.h"
 
-Pawn::Pawn(std::string location, bool isWhite, const Board* boardPtr) : Figure(location, isWhite, boardPtr)
+Pawn::Pawn(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }
@@ -10,7 +10,7 @@ Pawn::~Pawn()
 	return;
 }
 
-int Pawn::isValidMove(const std::string& move)
+int Pawn::isValidMove(const int& row, const int& col)
 {
 	return 0;
 }

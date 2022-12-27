@@ -9,7 +9,7 @@ class Board;
 class Queen : public Rook, public Bishop
 {
 public:
-	Queen(std::string location, bool isWhite, const Board* boardPtr);
+	Queen(const int& row, const int& col, bool isWhite, const Board* boardPtr);
 	virtual ~Queen();
-	int isValidMove(const std::string& move) override;
+	int isValidMove(const int& row, const int& col) override;
 };

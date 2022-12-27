@@ -8,7 +8,7 @@ class Board;
 class Rook : virtual public Figure
 {
 public:
-	Rook(std::string location, bool isWhite, const Board* boardPtr);
+	Rook(const int& row, const int& col, bool isWhite, const Board* boardPtr);
 	virtual ~Rook();
-	int isValidMove(const std::string& move) override;
+	int isValidMove(const int& row, const int& col) override;
 };

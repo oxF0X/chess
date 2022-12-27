@@ -7,7 +7,7 @@ class Board;
 class Kinght : public Figure
 {
 public:
-	Kinght(std::string location, bool isWhite, const Board* boardPtr);
+	Kinght(const int& row, const int& col, bool isWhite, const Board* boardPtr);
 	virtual ~Kinght();
-	int isValidMove(const std::string& move) override;
+	int isValidMove(const int& row, const int& col) override;
 };

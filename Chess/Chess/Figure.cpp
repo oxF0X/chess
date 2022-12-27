@@ -2,9 +2,10 @@
 class Board;
 
 
-Figure::Figure(std::string location, bool color, const Board* boardPtr) : _boardPtr(boardPtr)
+Figure::Figure(const int& row, const int& col, bool color, const Board* boardPtr) : _boardPtr(boardPtr)
 {
-	this->_location = location;
+	this->_row = row;
+	this->_col = col;
 	this->_color = color;
 }
 
@@ -24,7 +25,8 @@ std::string Figure::getLocation() const
 	return std::string();
 }
 
-void Figure::setLocation(std::string& location)
+void Figure::setLocation(const int& row, const int& col)
 {
-	this->_location = location;
+	this->_row = row;
+	this->_col = col;
 }

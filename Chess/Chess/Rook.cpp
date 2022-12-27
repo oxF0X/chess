@@ -1,7 +1,7 @@
 #include "Rook.h"
 #include "Board.h"
 
-Rook::Rook(std::string location, bool isWhite, const Board* boardPtr) : Figure(location, isWhite, boardPtr)
+Rook::Rook(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }
@@ -11,31 +11,33 @@ Rook::~Rook()
 	return;
 }
 
-int Rook::isValidMove(const std::string& move)
+int Rook::isValidMove(const int& row, const int& col)
 {
-	int* dstLocation = MathUtils::strLocationToInt(move);
-	int* srcLocation = MathUtils::strLocationToInt(this->_location);
-	if (dstLocation[COL] == srcLocation[COL])
+	if (col == this->_col)
 	{
-		for (int i = abs(dstLocation[COL] - srcLocation[COL]); i > 0; i--)
+		for (int i = abs(col - this->_col); i > 0; i--)
 		{
-			if (!this->_boardPtr->isEmpty(dstLocation[i], dstLocation[ROW]))
+			if (!this->_boardPtr->isEmpty(i, row))
 			{
 				return ILLEGAL_MOVE;
 			}
 		}
+		this->_row = row;
+		this->_col = col;
 		return VALID_MOVE;
 		
 	}
-	else if (dstLocation[ROW] == srcLocation[ROW])
+	else if (row == this->_row)
 	{
-		for (int i = abs(dstLocation[ROW] - srcLocation[ROW]); i > 0; i--)
+		for (int i = abs(row - this->_row); i > 0; i--)
 		{
-			if (!this->_boardPtr->isEmpty(dstLocation[COL], dstLocation[i]))
+			if (!this->_boardPtr->isEmpty(col, i))
 			{
 				return ILLEGAL_MOVE;
 			}
 		}
+		this->_row = row;
+		this->_col = col;
 		return VALID_MOVE;
 	}
 	else

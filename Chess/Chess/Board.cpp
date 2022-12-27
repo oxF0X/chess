@@ -12,7 +12,8 @@ Board::Board(std::string toolsMap)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
-			this->_figuresArr[i][j] = this->charToFigure(toolsMap[(i * SIZE + abs(j - SIZE + 1))], MathUtils::intLocationToStr(abs(SIZE-j), abs(SIZE - i)));
+			char l = toolsMap[(i * SIZE + abs(j - SIZE + 1))];
+			this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + abs(j - SIZE + 1)], abs(SIZE - j - 1),abs(SIZE - i - 1));
 		}
 	}
 
@@ -32,30 +33,28 @@ int Board::move(std::string location)
 {
 	int code;
 	Figure* srcFigure = nullptr;
-	Figure* dstFigure = nullptr;
-	std::string src = location.substr(0, location.length() / 2);
-	std::string dst = location.substr(location.length() / 2);
-	srcFigure = this->getSrcFigure(src);
+	Figure* dstFigure = nullptr;    
+	int srcCol = ((int)(location[0])) - A_ASCII_CODE;		// translate location to int
+	int srcRow = ((int)location[1]) - ONE_ASCII_CODE;
+	int dstCol = ((int)(location[2])) - A_ASCII_CODE;
+	int dstRow = ((int)location[3]) - ONE_ASCII_CODE;
+	srcFigure = this->getSrcFigure(srcRow, srcCol);
 	if (srcFigure == nullptr)
 	{
 		return INVALID_SRC_FIGURE;
 	}
-	if (this->checkDst(dst) == TEAM_FIGURE_ON_DST_LOCATION)
+	if (this->checkDst(dstRow, dstCol) == TEAM_FIGURE_ON_DST_LOCATION)
 	{
 		return TEAM_FIGURE_ON_DST_LOCATION;
 	}
-	code = srcFigure->isValidMove(dst);
+	code = srcFigure->isValidMove(dstRow, dstCol);
 	if (code == VALID_MOVE)
 	{
-		int* dstLocation = MathUtils::strLocationToInt(dst);
-		int* srcLocation = MathUtils::strLocationToInt(src);
-		dstFigure = this->_figuresArr[dstLocation[ROW]][dstLocation[COL]];
+		dstFigure = this->_figuresArr[dstRow][dstCol];
 		delete dstFigure;
-		this->_figuresArr[dstLocation[ROW]][dstLocation[COL]] = srcFigure;
-		this->_figuresArr[srcLocation[ROW]][srcLocation[COL]] = nullptr;
+		this->_figuresArr[dstRow][dstCol] = srcFigure;
+		this->_figuresArr[srcRow][srcCol] = nullptr;
 		this->_whiteOrBlack = !this->_whiteOrBlack;
-		delete[] dstLocation;
-		delete[] srcLocation;
 	}
 	std::cout << "The code is: " << code << std::endl;
 	return code;
@@ -63,23 +62,20 @@ int Board::move(std::string location)
 }
 
 
-Figure* Board::getSrcFigure(std::string location) const
+Figure* Board::getSrcFigure(int& row, int& col) const
 {
 	Figure* newFigure = nullptr;
-	int* locationArr = MathUtils::strLocationToInt(location);
-	if (this->isEmpty(locationArr[ROW], locationArr[COL]) || (this->_figuresArr[locationArr[ROW]][locationArr[COL]])->getColor() != this->_whiteOrBlack)
+	if (this->isEmpty(row, col) || (this->_figuresArr[row][col])->getColor() != this->_whiteOrBlack)
 	{
 		return newFigure;
 	}
-	return (*this->_figuresArr[locationArr[ROW], locationArr[COL]]);
+	return this->_figuresArr[row][col];
 }
 
-int Board::checkDst(std::string location) const
+int Board::checkDst(int& row, int& col) const
 {
 	Figure* newFigure = nullptr;
-	int* locationArr = MathUtils::strLocationToInt(location);
-	bool x = this->isEmpty(locationArr[ROW], locationArr[COL]);
-	if (this->isEmpty(locationArr[ROW],locationArr[COL]) || this->_figuresArr[locationArr[ROW]][locationArr[COL]]->getColor() != this->_whiteOrBlack)
+	if (this->isEmpty(row, col) || this->_figuresArr[row][col]->getColor() != this->_whiteOrBlack)
 	{
 		return VALID_MOVE;
 	}
@@ -93,7 +89,7 @@ bool Board::isShah()
 
 
 
-Figure* Board::charToFigure(char f, std::string location) const
+Figure* Board::charToFigure(char f, const int& row, const int& col) const
 {
 	Figure* newFigure = nullptr;
 	switch (tolower(f))
@@ -101,55 +97,55 @@ Figure* Board::charToFigure(char f, std::string location) const
 	case KING:
 		if (isupper(f))
 		{
-			newFigure = new King(location, BLACK, this);
+			newFigure = new King(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new King(location, WHITE, this);
+		newFigure = new King(row, col, WHITE, this);
 		break;
 
 	case QUEEN:
 		if (isupper(f))
 		{
-			newFigure = new Queen(location, BLACK, this);
+			newFigure = new Queen(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new Queen(location, WHITE, this);
+		newFigure = new Queen(row, col, WHITE, this);
 		break;
 
 	case BISHOP:
 		if (isupper(f))
 		{
-			newFigure = new Bishop(location, BLACK, this);
+			newFigure = new Bishop(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new Bishop(location, WHITE, this);
+		newFigure = new Bishop(row, col, WHITE, this);
 		break;
 
 	case ROOK:
 		if (isupper(f))
 		{
-			newFigure = new Rook(location, BLACK, this);
+			newFigure = new Rook(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new Rook(location, WHITE, this);
+		newFigure = new Rook(row, col, WHITE, this);
 		break;
 
 	case PAWN:
 		if (isupper(f))
 		{
-			newFigure = new Pawn(location, BLACK, this);
+			newFigure = new Pawn(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new Pawn(location, WHITE, this);
+		newFigure = new Pawn(row, col, WHITE, this);
 		break;
 
 	case KNIGHT:
 		if (isupper(f))
 		{
-			newFigure = new Kinght(location, BLACK, this);
+			newFigure = new Kinght(row, col, BLACK, this);
 			break;
 		}
-		newFigure = new Kinght(location, WHITE, this);
+		newFigure = new Kinght(row, col, WHITE, this);
 		break;
 
 	default:
@@ -159,7 +155,7 @@ Figure* Board::charToFigure(char f, std::string location) const
 	return newFigure;
 }
 
-bool Board::isEmpty(int col, int row) const
+bool Board::isEmpty(int row, int col) const
 {
 	return this->_figuresArr[row][col] == nullptr;
 }

@@ -44,14 +44,14 @@ class Board
 public:
 	static Board getBoard(std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
-	bool isEmpty(int col, int row) const;
+	bool isEmpty(int row, int col) const;
 
 private:
 	Board(std::string toolsMap);
-	Figure* getSrcFigure(std::string location) const;
-	int checkDst(std::string location) const;
+	Figure* getSrcFigure(int& row, int& col) const;
+	int checkDst(int& row, int& col) const;
 	bool isShah();
-	Figure* charToFigure(char f, std::string location) const;
+	Figure* charToFigure(char f, const int& row, const int& col) const;
 
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;

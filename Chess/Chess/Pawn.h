@@ -6,7 +6,7 @@ class Board;
 class Pawn : public Figure
 {
 public:
-	Pawn(std::string location, bool isWhite, const Board* boardPtr);
+	Pawn(const int& row, const int& col, bool isWhite, const Board* boardPtr);
 	virtual ~Pawn();
-	int isValidMove(const std::string& move) override;
+	int isValidMove(const int& row, const int& col) override;
 };
