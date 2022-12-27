@@ -1,5 +1,6 @@
 #pragma once
 #include "Figure.h"
+#include "Board.h"
 
 class Board;
 

@@ -12,8 +12,7 @@ Board::Board(std::string toolsMap)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
-			char l = toolsMap[(i * SIZE + abs(j - SIZE + 1))];
-			this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + abs(j - SIZE + 1)], abs(SIZE - j - 1),abs(SIZE - i - 1));
+			this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + j], i, j);
 		}
 	}
 
