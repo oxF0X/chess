@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <vector>
 #include <string>
 #include "Figure.h"
 #include "Bishop.h"
@@ -31,13 +32,6 @@
 #define BISHOP 'b'
 #define EMPTY_LOCATION '#'
 
-//class Rook;
-//class Bishop;
-//class King;
-//class Knight;
-//class Pawn;
-//class Queen;
-//class Figure;
 
 class Board
 {
@@ -45,6 +39,7 @@ public:
 	static Board getBoard(std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
 	bool isEmpty(int row, int col) const;
+	void setKingLocation(const int& row, const int& col, bool color);
 
 private:
 	Board(std::string toolsMap);
@@ -52,10 +47,14 @@ private:
 	int checkDst(int& row, int& col) const;
 	bool isShah();
 	Figure* charToFigure(char f, const int& row, const int& col) const;
+	std::vector<Figure*> _blackFigures;
+	std::vector<Figure*> _whiteFigures;
 
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;
-	std::string _whiteKingLocation;
-	std::string _blackKingLocation;
+	int _whiteKingCol;
+	int _whiteKingRow;
+	int _blackKingCol;
+	int _blackKingRow;
 	static int _numOfBoards;
 };

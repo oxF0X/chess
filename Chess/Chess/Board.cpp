@@ -7,12 +7,26 @@ int Board::_numOfBoards = 0;
 // CTOR
 Board::Board(std::string toolsMap)
 {
+	char color;
+	this->_whiteKingCol = 3;
+	this->_whiteKingRow = 0;
+	this->_blackKingCol = 3;
+	this->_whiteKingRow = 7;
 	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
-			this->_figuresArr[i][j] = this->charToFigure(toolsMap[i * SIZE + j], i, j);
+			color = toolsMap[i * SIZE + j];
+			this->_figuresArr[i][j] = this->charToFigure(color, i, j);
+			if (color == WHITE)
+			{
+				this->_whiteFigures.push_back(this->_figuresArr[i][j]);
+			}
+			else
+			{
+				this->_blackFigures.push_back(this->_figuresArr[i][j]);
+			}
 		}
 	}
 
@@ -54,6 +68,10 @@ int Board::move(std::string location)
 		this->_figuresArr[dstRow][dstCol] = srcFigure;
 		this->_figuresArr[srcRow][srcCol] = nullptr;
 		this->_whiteOrBlack = !this->_whiteOrBlack;
+		if (typeid(*(srcFigure)).name() == "King")
+		{
+			this->setKingLocation(dstRow, dstCol, this->_whiteOrBlack);
+		}
 	}
 	std::cout << "The code is: " << code << std::endl;
 	return code;
@@ -83,7 +101,16 @@ int Board::checkDst(int& row, int& col) const
 
 bool Board::isShah()
 {
-	return false;
+	int i, size;
+	if (this->_whiteOrBlack == WHITE)
+	{
+		/*size = this->_whiteFigures.size();
+		for (int i; i < size; i++)
+		{
+			if (this->_whiteFigures[i]->isValidMove(this->_))
+		}*/
+	}
+	return true;
 }
 
 
@@ -157,5 +184,17 @@ Figure* Board::charToFigure(char f, const int& row, const int& col) const
 bool Board::isEmpty(int row, int col) const
 {
 	return this->_figuresArr[row][col] == nullptr;
+}
+
+void Board::setKingLocation(const int& row, const int& col, bool color)
+{
+	if (color == WHITE)
+	{
+		this->_whiteKingRow = row;
+		this->_whiteKingCol = col;
+		return;
+	}
+	this->_blackKingRow = row;
+	this->_blackKingCol = col;
 }
 
