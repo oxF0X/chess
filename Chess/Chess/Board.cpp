@@ -21,11 +21,13 @@ Board::Board(std::string toolsMap)
 			this->_figuresArr[i][j] = this->charToFigure(color, i, j);
 			if (color == WHITE)
 			{
-				this->_whiteFigures.push_back(this->_figuresArr[i][j]);
+				this->_whiteFigures.push_back(i);
+				this->_whiteFigures.push_back(j);
 			}
 			else
 			{
-				this->_blackFigures.push_back(this->_figuresArr[i][j]);
+				this->_blackFigures.push_back(i);
+				this->_blackFigures.push_back(j);
 			}
 		}
 	}
@@ -64,7 +66,7 @@ int Board::move(std::string location)
 	if (code == VALID_MOVE)
 	{
 		dstFigure = this->_figuresArr[dstRow][dstCol];
-		delete dstFigure;
+		delete dstFigure; 
 		this->_figuresArr[dstRow][dstCol] = srcFigure;
 		this->_figuresArr[srcRow][srcCol] = nullptr;
 		this->_whiteOrBlack = !this->_whiteOrBlack;
@@ -99,17 +101,33 @@ int Board::checkDst(int& row, int& col) const
 	return TEAM_FIGURE_ON_DST_LOCATION;
 }
 
-bool Board::isShah()
+bool Board::isShah(const bool blackOrWhite)
 {
-	int i, size;
-	if (this->_whiteOrBlack == WHITE)
+	std::vector<int> figures;
+	int i, size, kingRow, kingCol, row, col;
+	if (blackOrWhite == WHITE)
 	{
-		/*size = this->_whiteFigures.size();
-		for (int i; i < size; i++)
-		{
-			if (this->_whiteFigures[i]->isValidMove(this->_))
-		}*/
+		figures = this->_whiteFigures;
+		kingRow = this->_whiteKingRow;
+		kingCol = this->_whiteKingCol;
 	}
+	else
+	{
+		figures = this->_blackFigures;
+		kingRow = this->_blackKingRow;
+		kingCol = this->_blackKingCol;
+	}
+	size = figures.size();
+	for (int i = 0; i < size / 2; i += 2)
+	{
+		row = figures[i];
+		col = figures[i + 1];
+		if (this->_figuresArr[row][col] != nullptr)
+		{
+
+		}
+	}
+
 	return true;
 }
 
