@@ -1,7 +1,5 @@
-﻿  Board.cpp
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(120,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(107,6): warning C4101: 'i': unreferenced local variable
+﻿  Knight.cpp
   Source.cpp
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Source.cpp(20,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\Chess\Source.cpp(20,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
   Generating Code...
-  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe
+  Chess.vcxproj -> C:\Users\test0\OneDrive\מסמכים\Magshimim2\Advenced programing\hm\hm7\chess\Chess\x64\Debug\Chess.exe
