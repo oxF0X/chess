@@ -35,18 +35,20 @@
 
 class Board
 {
+	friend class King;
 public:
 	static Board getBoard(std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
 	bool isEmpty(int row, int col) const;
 	void setKingLocation(const int& row, const int& col, bool color);
+	virtual ~Board();
 
 private:
 	Board(std::string toolsMap);
 	Figure* getSrcFigure(int& row, int& col) const;
 	int checkDst(int& row, int& col) const;
 	bool isShah(const bool blackOrWhite);
-	Figure* charToFigure(char f, const int& row, const int& col) const;
+	Figure* charToFigure(char f, const int& row, const int& col);
 
 	std::vector<int> _blackFigures;
 	std::vector<int> _whiteFigures;

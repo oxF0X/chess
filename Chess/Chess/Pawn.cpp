@@ -1,6 +1,6 @@
 #include "Pawn.h"
 
-Pawn::Pawn(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
+Pawn::Pawn(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }

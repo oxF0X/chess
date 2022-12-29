@@ -2,8 +2,9 @@
 class Board;
 
 
-Figure::Figure(const int& row, const int& col, bool color, const Board* boardPtr) : _boardPtr(boardPtr)
+Figure::Figure(const int& row, const int& col, bool color,  Board* boardPtr)
 {
+	this->_boardPtr = boardPtr;
 	this->_row = row;
 	this->_col = col;
 	this->_color = color;

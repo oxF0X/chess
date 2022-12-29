@@ -1,7 +1,7 @@
 #include "Rook.h"
 #include "Board.h"
 
-Rook::Rook(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
+Rook::Rook(const int& row, const int& col, bool isWhite,Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }
@@ -13,11 +13,11 @@ Rook::~Rook()
 
 int Rook::isValidMove(const int& row, const int& col)
 {
-	if (col == this->_col)
+	if (row == this->_row)
 	{
 		for (int i = abs(col - this->_col); i > 0; i--)
 		{
-			if (!this->_boardPtr->isEmpty(i, row))
+			if (!this->_boardPtr->isEmpty(row, i))
 			{
 				return ILLEGAL_MOVE;
 			}
@@ -27,11 +27,11 @@ int Rook::isValidMove(const int& row, const int& col)
 		return VALID_MOVE;
 		
 	}
-	else if (row == this->_row)
+	else if (col == this->_col)
 	{
 		for (int i = abs(row - this->_row); i > 0; i--)
 		{
-			if (!this->_boardPtr->isEmpty(col, i))
+			if (!this->_boardPtr->isEmpty(i, col))
 			{
 				return ILLEGAL_MOVE;
 			}

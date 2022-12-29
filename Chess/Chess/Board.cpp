@@ -7,19 +7,21 @@ int Board::_numOfBoards = 0;
 // CTOR
 Board::Board(std::string toolsMap)
 {
-	char color;
+	char figure;
 	this->_whiteKingCol = 3;
 	this->_whiteKingRow = 0;
 	this->_blackKingCol = 3;
-	this->_whiteKingRow = 7;
+	this->_blackKingRow = 7;
 	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
+	toolsMap.pop_back();
+	//std::reverse(toolsMap.begin(), toolsMap.end());
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
-			color = toolsMap[i * SIZE + j];
-			this->_figuresArr[i][j] = this->charToFigure(color, i, j);
-			if (color == WHITE)
+			figure = toolsMap[(SIZE - i - 1) * SIZE + j];
+			this->_figuresArr[i][j] = this->charToFigure(figure , i, j);
+			if (this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() == WHITE)
 			{
 				this->_whiteFigures.push_back(i);
 				this->_whiteFigures.push_back(j);
@@ -65,6 +67,15 @@ int Board::move(std::string location)
 	code = srcFigure->isValidMove(dstRow, dstCol);
 	if (code == VALID_MOVE)
 	{
+		code = this->isShah((this->_whiteOrBlack)) == true ? MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM : VALID_MOVE;
+		if (code == MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM)
+		{
+			srcFigure->setLocation(srcRow, srcCol);
+			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
+		}
+	}
+	if (code == VALID_MOVE)
+	{
 		dstFigure = this->_figuresArr[dstRow][dstCol];
 		delete dstFigure; 
 		this->_figuresArr[dstRow][dstCol] = srcFigure;
@@ -74,6 +85,7 @@ int Board::move(std::string location)
 		{
 			this->setKingLocation(dstRow, dstCol, this->_whiteOrBlack);
 		}
+		code = this->isShah(!this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	}
 	std::cout << "The code is: " << code << std::endl;
 	return code;
@@ -101,39 +113,36 @@ int Board::checkDst(int& row, int& col) const
 	return TEAM_FIGURE_ON_DST_LOCATION;
 }
 
-bool Board::isShah(const bool blackOrWhite)
+bool Board::isShah(const bool blackOrWhite )
 {
-	std::vector<int> figures;
-	int i, size, kingRow, kingCol, row, col;
-	if (blackOrWhite == WHITE)
+	//std::vector<int> figures;
+	int i, j, size, kingRow, kingCol, row, col;
+	if (blackOrWhite == BLACK)
 	{
-		figures = this->_whiteFigures;
-		kingRow = this->_whiteKingRow;
-		kingCol = this->_whiteKingCol;
-	}
-	else
-	{
-		figures = this->_blackFigures;
 		kingRow = this->_blackKingRow;
 		kingCol = this->_blackKingCol;
 	}
-	size = figures.size();
-	for (int i = 0; i < size / 2; i += 2)
+	else
 	{
-		row = figures[i];
-		col = figures[i + 1];
-		if (this->_figuresArr[row][col] != nullptr)
+		kingRow = this->_whiteKingRow;
+		kingCol = this->_whiteKingCol;
+	}
+	for (i = 0; i < SIZE; i++)
+	{
+		for (j = 0; j < SIZE; j++)
 		{
-
+			if(this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() != blackOrWhite && this->_figuresArr[i][j]->isValidMove(kingRow, kingCol) == VALID_MOVE)
+			{
+				return true;
+			}
 		}
 	}
-
-	return true;
+	return false;
 }
 
 
 
-Figure* Board::charToFigure(char f, const int& row, const int& col) const
+Figure* Board::charToFigure(char f, const int& row, const int& col)
 {
 	Figure* newFigure = nullptr;
 	switch (tolower(f))
@@ -141,55 +150,55 @@ Figure* Board::charToFigure(char f, const int& row, const int& col) const
 	case KING:
 		if (isupper(f))
 		{
-			newFigure = new King(row, col, BLACK, this);
+			newFigure = new King(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new King(row, col, WHITE, this);
+		newFigure = new King(row, col, BLACK, this);
 		break;
 
 	case QUEEN:
 		if (isupper(f))
 		{
-			newFigure = new Queen(row, col, BLACK, this);
+			newFigure = new Queen(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new Queen(row, col, WHITE, this);
+		newFigure = new Queen(row, col, BLACK, this);
 		break;
 
 	case BISHOP:
 		if (isupper(f))
 		{
-			newFigure = new Bishop(row, col, BLACK, this);
+			newFigure = new Bishop(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new Bishop(row, col, WHITE, this);
+		newFigure = new Bishop(row, col, BLACK, this);
 		break;
 
 	case ROOK:
 		if (isupper(f))
 		{
-			newFigure = new Rook(row, col, BLACK, this);
+			newFigure = new Rook(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new Rook(row, col, WHITE, this);
+		newFigure = new Rook(row, col, BLACK, this);
 		break;
 
 	case PAWN:
 		if (isupper(f))
 		{
-			newFigure = new Pawn(row, col, BLACK, this);
+			newFigure = new Pawn(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new Pawn(row, col, WHITE, this);
+		newFigure = new Pawn(row, col, BLACK, this);
 		break;
 
 	case KNIGHT:
 		if (isupper(f))
 		{
-			newFigure = new Kinght(row, col, BLACK, this);
+			newFigure = new Kinght(row, col, WHITE, this);
 			break;
 		}
-		newFigure = new Kinght(row, col, WHITE, this);
+		newFigure = new Kinght(row, col, BLACK, this);
 		break;
 
 	default:
@@ -214,5 +223,16 @@ void Board::setKingLocation(const int& row, const int& col, bool color)
 	}
 	this->_blackKingRow = row;
 	this->_blackKingCol = col;
+}
+
+Board::~Board()
+{
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			delete this->_figuresArr[i][j];
+		}
+	}
 }
 

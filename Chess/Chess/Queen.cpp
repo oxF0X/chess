@@ -1,7 +1,7 @@
 #include "Queen.h"
 
 
-Queen::Queen(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr), Rook(row, col, isWhite, boardPtr), Bishop(row, col, isWhite, boardPtr)
+Queen::Queen(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figure(row, col, isWhite, boardPtr), Rook(row, col, isWhite, boardPtr), Bishop(row, col, isWhite, boardPtr)
 {
 	return;
 }

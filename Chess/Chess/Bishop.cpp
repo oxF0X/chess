@@ -1,7 +1,7 @@
 #include "Bishop.h"
 #include "Board.h"
 
-Bishop::Bishop(const int& row, const int& col, bool isWhite, const Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
+Bishop::Bishop(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }

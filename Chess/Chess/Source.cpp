@@ -21,7 +21,8 @@ void main()
 	system("Start chessGraphics.exe");
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	// srand(time_t(NULL));
-	std::string map = "rb#kn##r################################################RBNK###R0";
+	//"r##k##nr################################################R#BK###R0"
+	std::string map = "rnbk#bnr################################################RNBK#BNR0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 
