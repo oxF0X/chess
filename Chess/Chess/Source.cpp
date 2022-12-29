@@ -22,7 +22,7 @@ void main()
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	// srand(time_t(NULL));
 	//"r##k##nr################################################R#BK###R0"
-	std::string map = "rnbk#bnr################################################RNBK#BNR0";
+	std::string map = "rnbkqbnr################################################RNBKQBNR0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 

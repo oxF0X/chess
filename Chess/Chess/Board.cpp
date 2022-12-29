@@ -85,7 +85,7 @@ int Board::move(std::string location)
 		{
 			this->setKingLocation(dstRow, dstCol, this->_whiteOrBlack);
 		}
-		code = this->isShah(!this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
+		code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	}
 	std::cout << "The code is: " << code << std::endl;
 	return code;
