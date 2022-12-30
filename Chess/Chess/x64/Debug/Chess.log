@@ -1,5 +1,2 @@
-﻿  Board.cpp
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(120,36): warning C4101: 'row': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(120,41): warning C4101: 'col': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(120,12): warning C4101: 'size': unreferenced local variable
+﻿  Rook.cpp
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

@@ -50,8 +50,8 @@ private:
 	bool isShah(const bool blackOrWhite);
 	Figure* charToFigure(char f, const int& row, const int& col);
 
-	std::vector<int> _blackFigures;
-	std::vector<int> _whiteFigures;
+	//std::vector<int> _blackFigures;
+	//std::vector<int> _whiteFigures;
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;
 	int _whiteKingCol;

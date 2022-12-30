@@ -14,13 +14,13 @@ Board::Board(std::string toolsMap)
 	this->_blackKingRow = 7;
 	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
 	toolsMap.pop_back();
-	//std::reverse(toolsMap.begin(), toolsMap.end());
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
 			figure = toolsMap[(SIZE - i - 1) * SIZE + j];
 			this->_figuresArr[i][j] = this->charToFigure(figure , i, j);
+			/*
 			if (this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() == WHITE)
 			{
 				this->_whiteFigures.push_back(i);
@@ -30,7 +30,7 @@ Board::Board(std::string toolsMap)
 			{
 				this->_blackFigures.push_back(i);
 				this->_blackFigures.push_back(j);
-			}
+			}*/
 		}
 	}
 
@@ -79,16 +79,9 @@ int Board::move(std::string location)
 			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
 		}
 	}
-	if (code == VALID_MOVE)
-	{
-//		dstFigure = this->_figuresArr[dstRow][dstCol];
-		delete dstFigure; 
-//		this->_figuresArr[dstRow][dstCol] = srcFigure;
-//		this->_figuresArr[srcRow][srcCol] = nullptr;
-		this->_whiteOrBlack = !this->_whiteOrBlack;
-		code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
-	}
-	std::cout << "The code is: " << code << std::endl;
+	delete dstFigure; 
+	this->_whiteOrBlack = !this->_whiteOrBlack;
+	code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	return code;
 
 }
@@ -116,7 +109,6 @@ int Board::checkDst(int& row, int& col) const
 
 bool Board::isShah(const bool blackOrWhite )
 {
-	//std::vector<int> figures;
 	int i, j, size, kingRow, kingCol, row, col, tmpCol, tmpRow;
 	if (blackOrWhite == BLACK)
 	{
