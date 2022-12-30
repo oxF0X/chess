@@ -1,5 +1,5 @@
 ﻿  Board.cpp
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(112,36): warning C4101: 'row': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(112,41): warning C4101: 'col': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(112,12): warning C4101: 'size': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(118,36): warning C4101: 'row': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(118,41): warning C4101: 'col': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(118,12): warning C4101: 'size': unreferenced local variable
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

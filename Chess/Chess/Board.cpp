@@ -8,10 +8,6 @@ int Board::_numOfBoards = 0;
 Board::Board(std::string toolsMap)
 {
 	char figure;
-	this->_whiteKingCol = 3;
-	this->_whiteKingRow = 0;
-	this->_blackKingCol = 3;
-	this->_blackKingRow = 7;
 	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
 	toolsMap.pop_back();
 	for (int i = 0; i < SIZE; i++)
@@ -20,17 +16,16 @@ Board::Board(std::string toolsMap)
 		{	
 			figure = toolsMap[(SIZE - i - 1) * SIZE + j];
 			this->_figuresArr[i][j] = this->charToFigure(figure , i, j);
-			/*
-			if (this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() == WHITE)
+			if (figure == toupper(KING))
 			{
-				this->_whiteFigures.push_back(i);
-				this->_whiteFigures.push_back(j);
+				this->_whiteKingCol = j;
+				this->_whiteKingRow = i;
 			}
-			else
+			if (figure == KING)
 			{
-				this->_blackFigures.push_back(i);
-				this->_blackFigures.push_back(j);
-			}*/
+				this->_blackKingCol = j;
+				this->_blackKingRow = i;
+			}
 		}
 	}
 
@@ -55,6 +50,8 @@ int Board::move(std::string location)
 	int srcRow = ((int)location[1]) - ONE_ASCII_CODE;
 	int dstCol = ((int)(location[2])) - A_ASCII_CODE;
 	int dstRow = ((int)location[3]) - ONE_ASCII_CODE;
+	int tmpKingCol = this->_whiteOrBlack == WHITE ? this->_whiteKingCol : this->_blackKingCol;
+	int tmpKingRow = this->_whiteOrBlack == WHITE ? this->_whiteKingRow : this->_blackKingRow;
 	srcFigure = this->getSrcFigure(srcRow, srcCol);
 	if (srcFigure == nullptr)
 	{
@@ -76,12 +73,21 @@ int Board::move(std::string location)
 			this->_figuresArr[dstRow][dstCol] = dstFigure;
 			this->_figuresArr[srcRow][srcCol] = srcFigure;
 			srcFigure->setLocation(srcRow, srcCol);
+			if (this->_whiteOrBlack == WHITE)
+			{
+				this->_whiteKingCol = tmpKingCol;
+				this->_whiteKingRow = tmpKingRow;
+				return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
+			}
+			this->_blackKingCol = tmpKingCol;
+			this->_blackKingRow = tmpKingRow;
 			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
 		}
+
+		delete dstFigure;
+		this->_whiteOrBlack = !this->_whiteOrBlack;
+		code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	}
-	delete dstFigure; 
-	this->_whiteOrBlack = !this->_whiteOrBlack;
-	code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	return code;
 
 }
@@ -138,8 +144,6 @@ bool Board::isShah(const bool blackOrWhite )
 	}
 	return false;
 }
-
-
 
 Figure* Board::charToFigure(char f, const int& row, const int& col)
 {
@@ -206,6 +210,7 @@ Figure* Board::charToFigure(char f, const int& row, const int& col)
 	}
 	return newFigure;
 }
+
 
 bool Board::isEmpty(int row, int col) const
 {
