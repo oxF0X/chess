@@ -13,9 +13,11 @@ Rook::~Rook()
 
 int Rook::isValidMove(const int& row, const int& col)
 {
+	int i;
 	if (row == this->_row)
 	{
-		for (int i = abs(col - this->_col); i > 0; i--)
+		i = this->_col < col ? this->_col : col;
+		for (i += 1; i < abs(this->_col - col); i++)
 		{
 			if (!this->_boardPtr->isEmpty(row, i))
 			{
@@ -29,7 +31,8 @@ int Rook::isValidMove(const int& row, const int& col)
 	}
 	else if (col == this->_col)
 	{
-		for (int i = abs(row - this->_row); i > 0; i--)
+		i = this->_row < row ? this->_row : row;
+		for (i += 1; i < abs(this->_row - row); i++)
 		{
 			if (!this->_boardPtr->isEmpty(i, col))
 			{

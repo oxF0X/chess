@@ -31,3 +31,13 @@ void Figure::setLocation(const int& row, const int& col)
 	this->_row = row;
 	this->_col = col;
 }
+
+int Figure::getCol() const
+{
+	return this->_col;
+}
+
+int Figure::getRow() const
+{
+	return this->_row;
+}

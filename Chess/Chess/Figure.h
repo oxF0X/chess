@@ -16,6 +16,8 @@ public:
 	bool getColor() const;
 	std::string getLocation() const;
 	void setLocation(const int& row, const int& col);
+	int getCol() const;
+	int getRow() const;
 
 protected:
 	bool _color;

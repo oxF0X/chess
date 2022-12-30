@@ -67,24 +67,25 @@ int Board::move(std::string location)
 	code = srcFigure->isValidMove(dstRow, dstCol);
 	if (code == VALID_MOVE)
 	{
+		dstFigure = this->_figuresArr[dstRow][dstCol];
+		this->_figuresArr[dstRow][dstCol] = srcFigure;
+		this->_figuresArr[srcRow][srcCol] = nullptr;
 		code = this->isShah((this->_whiteOrBlack)) == true ? MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM : VALID_MOVE;
 		if (code == MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM)
 		{
+			this->_figuresArr[dstRow][dstCol] = dstFigure;
+			this->_figuresArr[srcRow][srcCol] = srcFigure;
 			srcFigure->setLocation(srcRow, srcCol);
 			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
 		}
 	}
 	if (code == VALID_MOVE)
 	{
-		dstFigure = this->_figuresArr[dstRow][dstCol];
+//		dstFigure = this->_figuresArr[dstRow][dstCol];
 		delete dstFigure; 
-		this->_figuresArr[dstRow][dstCol] = srcFigure;
-		this->_figuresArr[srcRow][srcCol] = nullptr;
+//		this->_figuresArr[dstRow][dstCol] = srcFigure;
+//		this->_figuresArr[srcRow][srcCol] = nullptr;
 		this->_whiteOrBlack = !this->_whiteOrBlack;
-		if (typeid(*(srcFigure)).name() == "King")
-		{
-			this->setKingLocation(dstRow, dstCol, this->_whiteOrBlack);
-		}
 		code = this->isShah(this->_whiteOrBlack) == true ? VALID_MOVE_SHAH_ON_OPPONENT : VALID_MOVE;
 	}
 	std::cout << "The code is: " << code << std::endl;
@@ -116,7 +117,7 @@ int Board::checkDst(int& row, int& col) const
 bool Board::isShah(const bool blackOrWhite )
 {
 	//std::vector<int> figures;
-	int i, j, size, kingRow, kingCol, row, col;
+	int i, j, size, kingRow, kingCol, row, col, tmpCol, tmpRow;
 	if (blackOrWhite == BLACK)
 	{
 		kingRow = this->_blackKingRow;
@@ -131,9 +132,15 @@ bool Board::isShah(const bool blackOrWhite )
 	{
 		for (j = 0; j < SIZE; j++)
 		{
-			if(this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() != blackOrWhite && this->_figuresArr[i][j]->isValidMove(kingRow, kingCol) == VALID_MOVE)
+			if (this->_figuresArr[i][j] != nullptr)
 			{
-				return true;
+				tmpCol = this->_figuresArr[i][j]->getCol();
+				tmpRow = this->_figuresArr[i][j]->getRow();
+				if (this->_figuresArr[i][j]->getColor() != blackOrWhite && this->_figuresArr[i][j]->isValidMove(kingRow, kingCol) == VALID_MOVE)
+				{
+					this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
+					return true;
+				}
 			}
 		}
 	}
