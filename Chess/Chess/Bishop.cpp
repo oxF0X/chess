@@ -13,14 +13,20 @@ Bishop::~Bishop()
 
 int Bishop::isValidMove(const int& row, const int& col)
 {
-	int i, j;
+	int i, j, lowerRow, biggerRow, lowerCol, biggerCol, difference;
 	if (abs(this->_row - row) == abs(this->_col - col))
 	{
-		i = this->_row < row ? this->_row : row;
-		j = this->_col < col ? this->_col : col;
-		for (i = this->_row + 1, j = this->_col + 1; i < abs(this->_row - row); i++, j++)
+		lowerRow = this->_row < row ? this->_row : row;
+		biggerRow = lowerRow + abs(this->_row - row);
+		lowerCol = this->_col < col ? this->_col : col;
+		biggerCol = lowerCol + abs(this->_col - col);
+		//difference = this->_col - col;
+		difference = col - this->_col;
+
+		for (j = abs(difference) - 1, i = lowerRow + 1; j > 0; i++, j--)
 		{
-			if (!this->_boardPtr->isEmpty(i, j))
+			difference + j > SIZE ? difference * -1 : difference;
+			if (!this->_boardPtr->isEmpty(i, this->_col + j + difference))
 			{
 				return ILLEGAL_MOVE;
 			}
