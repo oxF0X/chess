@@ -139,8 +139,6 @@ bool Board::isShah(const bool blackOrWhite )
 	return false;
 }
 
-
-
 Figure* Board::charToFigure(char f, const int& row, const int& col)
 {
 	Figure* newFigure = nullptr;
@@ -206,6 +204,7 @@ Figure* Board::charToFigure(char f, const int& row, const int& col)
 	}
 	return newFigure;
 }
+
 
 bool Board::isEmpty(int row, int col) const
 {

@@ -1,7 +1,8 @@
 #include "King.h"
 #include "Board.h"
 
-King::King(const int& row, const int& col, bool isWhite, Board* boardPtr): Figure(row, col, isWhite, boardPtr)
+
+King::King(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
 	return;
 }
