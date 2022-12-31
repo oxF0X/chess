@@ -28,7 +28,6 @@ Board::Board(std::string toolsMap)
 			}
 		}
 	}
-
 }
 
 Board Board::getBoard(std::string toolsMap)
