@@ -1,2 +1,14 @@
 ﻿  Bishop.cpp
+  Board.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(117,36): warning C4101: 'row': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(117,41): warning C4101: 'col': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(117,12): warning C4101: 'size': unreferenced local variable
+  King.cpp
+  Knight.cpp
+  Pawn.cpp
+  Queen.cpp
+  Rook.cpp
+  Source.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Source.cpp(20,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Generating Code...
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

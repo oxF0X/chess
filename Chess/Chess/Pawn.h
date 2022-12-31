@@ -9,4 +9,7 @@ public:
 	Pawn(const int& row, const int& col, bool isWhite, Board* boardPtr);
 	virtual ~Pawn();
 	int isValidMove(const int& row, const int& col) override;
+
+private:
+	bool _isFirstMove;
 };
