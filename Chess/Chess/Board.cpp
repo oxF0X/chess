@@ -74,7 +74,6 @@ int Board::move(std::string location)
 	int code;
 	Figure* srcFigure = nullptr;
 	Figure* dstFigure = nullptr; 
-	Figure* tmpFigure = nullptr;
 	int srcCol = ((int)(location[0])) - A_ASCII_CODE;		// translate location to int
 	int srcRow = ((int)location[1]) - ONE_ASCII_CODE;
 	int dstCol = ((int)(location[2])) - A_ASCII_CODE;
@@ -110,13 +109,11 @@ int Board::move(std::string location)
 	{
 		dstFigure = this->_figuresArr[dstRow][dstCol];
 		if (this->_figuresArr[srcRow][srcCol]->getType() == PAWN)
-		{
-			tmpFigure = this->_figuresArr[srcRow][srcCol];
+		{;
 			this->_figuresArr[dstRow][dstCol] = dynamic_cast<Pawn*>(this->_figuresArr[srcRow][srcCol])->getNewFigure();
 			if (this->_figuresArr[dstRow][dstCol] != nullptr)
 			{
-				delete tmpFigure;
-				tmpFigure = nullptr;
+				delete this->_figuresArr[srcRow][srcCol];
 				this->_figuresArr[srcRow][srcCol] = nullptr;
 			}
 			else

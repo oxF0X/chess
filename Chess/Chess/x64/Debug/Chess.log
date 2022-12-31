@@ -1,2 +1,5 @@
-﻿  Pawn.cpp
+﻿  Board.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(199,27): warning C4101: 'kingCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(199,12): warning C4101: 'size': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(199,18): warning C4101: 'kingRow': unreferenced local variable
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

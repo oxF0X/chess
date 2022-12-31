@@ -28,7 +28,7 @@ int Bishop::isValidMove(const int& row, const int& col)
 		{
 			tmpCol = col;
 		}
-		if (tmpCol < col)
+		if (tmpCol <= col)
 		{
 			for (i = lowerRow + 1, j = tmpCol + 1; i < biggerRow; i++, j++)
 			{
