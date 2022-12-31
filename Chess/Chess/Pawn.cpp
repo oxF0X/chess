@@ -5,6 +5,7 @@ Pawn::Pawn(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figu
 {
 	this->_isFirstMove = true;
 	this->_type = PAWN;
+	this->_newFigure = nullptr;
 }
 
 Pawn::~Pawn()
@@ -14,6 +15,8 @@ Pawn::~Pawn()
 
 int Pawn::isValidMove(const int& row, const int& col)
 {
+	Queen* q;
+
 	bool valid1 = (this->_row - row) == 1 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == WHITE;
 	bool valid2 = (this->_row - row) == 1 && abs(this->_col - col) == 1 && !this->_boardPtr->isEmpty(row, col) == 1 && this->getColor() == WHITE;
 	bool valid3 = (this->_row - row) == -1 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == BLACK;
@@ -24,10 +27,23 @@ int Pawn::isValidMove(const int& row, const int& col)
 
 	if (valid1 || valid2 || valid3 || valid4 || valid5 || valid6)
 	{
+		if (row == SIZE - 1 && this->_color == BLACK ||
+			row == 0 && this->_color == WHITE)
+		{
+			q = new Queen(row, col, this->_color, this->_boardPtr);
+			this->_newFigure = q;
+			//delete this;
+			return VALID_MOVE;
+		}
 		this->_isFirstMove = false;
 		this->_row = row;
 		this->_col = col;
 		return VALID_MOVE;
 	}
 	return ILLEGAL_MOVE;
+}
+
+Figure* Pawn::getNewFigure() const
+{
+	return this->_newFigure;
 }

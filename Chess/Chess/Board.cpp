@@ -108,7 +108,14 @@ int Board::move(std::string location)
 	if (code == VALID_MOVE)
 	{
 		dstFigure = this->_figuresArr[dstRow][dstCol];
-		this->_figuresArr[dstRow][dstCol] = srcFigure;
+		if (this->_figuresArr[srcRow][srcCol]->getType() == PAWN)
+		{
+			this->_figuresArr[dstRow][dstCol] = dynamic_cast<Pawn*>(this->_figuresArr[srcRow][srcCol])->getNewFigure();
+		}
+		if(this->_figuresArr[dstRow][dstCol] == nullptr || this->_figuresArr[srcRow][srcCol]->getType() != PAWN)
+		{
+			this->_figuresArr[dstRow][dstCol] = srcFigure;
+		}
 		this->_figuresArr[srcRow][srcCol] = nullptr;
 		if (this->_whiteOrBlack == BLACK)
 		{

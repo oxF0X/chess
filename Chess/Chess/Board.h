@@ -37,6 +37,7 @@
 class Board
 {
 	friend class King;
+	friend class Pawn;
 public:
 	static Board getBoard(Pipe* p, std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
