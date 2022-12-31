@@ -32,7 +32,6 @@ int Pawn::isValidMove(const int& row, const int& col)
 		{
 			q = new Queen(row, col, this->_color, this->_boardPtr);
 			this->_newFigure = q;
-			//delete this;
 			return VALID_MOVE;
 		}
 		this->_isFirstMove = false;
