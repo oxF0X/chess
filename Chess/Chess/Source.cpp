@@ -22,14 +22,14 @@ void main()
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	// srand(time_t(NULL));
 	//"r##k##nr################################################R#BK###R0"
-	std::string map = "rnbkqbnrp##############################################PRNBKQBNR0";
+	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
+	std::string map = "RNB#K##RP##############################################pr###kbnr0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 
 	Pipe p;
-	Board board = Board::getBoard(map);
+	Board board = Board::getBoard(&p, map);
 	bool isConnect = p.connect();
-	
 	string ans;
 	while (!isConnect)
 	{
@@ -80,7 +80,8 @@ void main()
 
 
 		// return result to graphics		
-		p.sendMessageToGraphics(msgToGraphics);   
+		p.sendMessageToGraphics(msgToGraphics);  
+ 
 
 		// get message from graphics
 		msgFromGraphics = p.getMessageFromGraphics();

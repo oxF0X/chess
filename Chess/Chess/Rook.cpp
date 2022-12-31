@@ -3,7 +3,8 @@
 
 Rook::Rook(const int& row, const int& col, bool isWhite,Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
-	return;
+	this->_isFirstMove = true;
+	this->_type = ROOK;
 }
 
 Rook::~Rook()
@@ -25,6 +26,7 @@ int Rook::isValidMove(const int& row, const int& col)
 				return ILLEGAL_MOVE;
 			}
 		}
+		this->_isFirstMove = false;
 		this->_row = row;
 		this->_col = col;
 		return VALID_MOVE;
@@ -41,6 +43,7 @@ int Rook::isValidMove(const int& row, const int& col)
 				return ILLEGAL_MOVE;
 			}
 		}
+		this->_isFirstMove = false;
 		this->_row = row;
 		this->_col = col;
 		return VALID_MOVE;

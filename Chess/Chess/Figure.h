@@ -18,8 +18,10 @@ public:
 	void setLocation(const int& row, const int& col);
 	int getCol() const;
 	int getRow() const;
+	char getType() const;
 
 protected:
+	char _type;
 	bool _color;
 	int _row;
 	int _col;

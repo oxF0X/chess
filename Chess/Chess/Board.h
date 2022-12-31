@@ -10,6 +10,7 @@
 #include "Pawn.h"
 #include "Queen.h"
 #include "Rook.h"
+#include "Pipe.h"
 
 
 #define WHITE false
@@ -37,26 +38,34 @@ class Board
 {
 	friend class King;
 public:
-	static Board getBoard(std::string toolsMap = DEFAULT_MAP);
+	static Board getBoard(Pipe* p, std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
 	bool isEmpty(int row, int col) const;
 	void setKingLocation(const int& row, const int& col, bool color);
 	virtual ~Board();
 
 private:
-	Board(std::string toolsMap);
+	std::string createBoardMap() const;
+	Board(Pipe* p, std::string toolsMap);
 	Figure* getSrcFigure(int& row, int& col) const;
 	int checkDst(int& row, int& col) const;
-	bool isShah(const bool blackOrWhite);
+	bool isShah(const bool blackOrWhite, int row, int col);
 	Figure* charToFigure(char f, const int& row, const int& col);
 
 	//std::vector<int> _blackFigures;
 	//std::vector<int> _whiteFigures;
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;
+	bool _isCastling;
 	int _whiteKingCol;
 	int _whiteKingRow;
 	int _blackKingCol;
 	int _blackKingRow;
+	int _castlingSrcRow;
+	int _castlingSrcCol;
+	int _castlingDstRow;
+	int _castlingDstCol;
 	static int _numOfBoards;
+	Pipe* _p;
+	
 };

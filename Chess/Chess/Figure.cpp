@@ -41,3 +41,8 @@ int Figure::getRow() const
 {
 	return this->_row;
 }
+
+char Figure::getType() const
+{
+	return this->_type;
+}

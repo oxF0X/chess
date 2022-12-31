@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Board.h"
 #include "Rook.h"
 #include "Bishop.h"
 

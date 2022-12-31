@@ -3,7 +3,7 @@
 
 Kinght::Kinght(const int& row, const int& col, bool isWhite, Board* boardPtr) : Figure(row, col, isWhite, boardPtr)
 {
-	return;
+	this->_type = KNIGHT;
 }
 
 Kinght::~Kinght()
