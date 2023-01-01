@@ -29,7 +29,7 @@ void main()
 	//map += "0";
 
 	Pipe p;
-	Board board = Board::getBoard(&p, map);
+	Board board = Board::getBoard(map);
 	bool isConnect = p.connect();
 	string ans;
 	while (!isConnect)

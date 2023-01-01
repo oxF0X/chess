@@ -20,13 +20,11 @@ int King::isValidMove(const int& row, const int& col)
 {
 	Rook* r;
 	int i, tmpCol, tmpRow;
-	char msgToGraphics[1024];
 	std::string map;
-	r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7]);
 	if (col - this->_col == 2&& this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 7) && 
 		this->_boardPtr->_figuresArr[this->_row][7]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][7]->getColor() == this->_color)
 	{
-		for (i = 5; i < SIZE; i++)
+		for (i = 4; i < SIZE; i++) // cheking if king not ins hah while mooving
 		{
 			this->_col++;
 			if (this->_boardPtr->isEmpty(this->_row, i))
@@ -48,27 +46,20 @@ int King::isValidMove(const int& row, const int& col)
 		this->_boardPtr->_isCastling = true;
 		this->_boardPtr->_castlingSrcCol = 7;
 		this->_boardPtr->_castlingSrcRow = this->_row;
-		this->_boardPtr->_castlingDstCol = 5;
+		this->_boardPtr->_castlingDstCol = 4;
 		this->_boardPtr->_castlingDstRow = this->_row;
-		this->_boardPtr->_whiteOrBlack = !this->_boardPtr->_whiteOrBlack;
+		this->_boardPtr->_whiteOrBlack = !this->_boardPtr->_whiteOrBlack; // give the next move to the same team
+		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7]);
 		r->_isFirstMove = false;
-		this->_col = 6;
 		this->_isFirstMove = false;
-		if (this->_color == WHITE)
-		{
-			this->_boardPtr->_whiteKingRow = row;
-			this->_boardPtr->_whiteKingCol = col;
-			return VALID_MOVE;
-		}
-		this->_boardPtr->_blackKingRow = row;
-		this->_boardPtr->_blackKingCol = col;
+		this->setLocation(6, this->_row);
 		return VALID_MOVE;
 	}
 
 	if (this->_col - col== 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 0) &&
 		this->_boardPtr->_figuresArr[this->_row][0]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][0]->getColor() == this->_color)
 	{
-		for (i = 4; i >= 2; i--)
+		for (i = 3; i >= 2; i--) // cheking if king not ins hah while mooving
 		{
 			this->_col++;
 			if (this->_boardPtr->isEmpty(this->_row, i))
@@ -86,43 +77,27 @@ int King::isValidMove(const int& row, const int& col)
 		this->_boardPtr->_isCastling = true;
 		this->_boardPtr->_castlingSrcCol = 0;
 		this->_boardPtr->_castlingSrcRow = this->_row;
-		this->_boardPtr->_castlingDstCol = 3;
+		this->_boardPtr->_castlingDstCol = 2;
 		this->_boardPtr->_castlingDstRow = this->_row;
 		this->_boardPtr->_whiteOrBlack = !this->_boardPtr->_whiteOrBlack;
+		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7]);
 		r->_isFirstMove = false;
-		this->_col = 2;
+		this->setLocation(this->_row, 2);
 		this->_isFirstMove = false;
-		if (this->_color == WHITE)
-		{
-			this->_boardPtr->_whiteKingRow = row;
-			this->_boardPtr->_whiteKingCol = col;
-			return VALID_MOVE;
-		}
-		this->_boardPtr->_blackKingRow = row;
-		this->_boardPtr->_blackKingCol = col;
 		return VALID_MOVE;
 	}
-	if (abs(this->_row - row) == 1 && abs(this->_col - col) == 1 ||
+	if (abs(this->_row - row) == 1 && abs(this->_col - col) == 1 || // regular move
 		abs(this->_row - row) == 0 && abs(this->_col - col) == 1 ||
 		abs(this->_row - row) == 1 && abs(this->_col - col) == 0)
 	{
-		this->_row = row;
-		this->_col = col;
-		this->_isFirstMove = false;
-		if (this->_color == WHITE)
-		{
-			this->_boardPtr->_whiteKingRow = row;
-			this->_boardPtr->_whiteKingCol = col;
-			return VALID_MOVE;
-		}
-		this->_boardPtr->_blackKingRow = row;
-		this->_boardPtr->_blackKingCol = col;
+		this->_isFirstMove = false; // nt the first move naymore
+		this->setLocation(row, col);
 		return VALID_MOVE;
 	}
 	return ILLEGAL_MOVE;
 }
 
-
+// This function changes king's location and board's king location
 void King::setLocation(const int& row, const int& col)
 {
 	this->_row = row;

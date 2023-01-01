@@ -12,7 +12,7 @@ std::string Board::createBoardMap() const
 	{
 		for (j = 0; j < SIZE; j++)
 		{
-			if (this->_figuresArr[SIZE - i - 1][j] == nullptr)
+			if (this->_figuresArr[SIZE - i - 1][j] == nullptr) 
 			{
 				map += '#';
 			}
@@ -31,102 +31,117 @@ std::string Board::createBoardMap() const
 }
 
 // CTOR
-Board::Board(Pipe* p, std::string toolsMap)
+Board::Board(std::string toolsMap)
 {
 	char figure;
 	this->_whiteOrBlack = (int)toolsMap[COLOR_INDEX];
 	toolsMap.pop_back();
 	this->_isCastling = false;
-	this->_p = p;
+	this->_isEnPassent = false;
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{	
-			figure = toolsMap[(SIZE - i - 1) * SIZE + j];
-			//figure = toolsMap[i +  SIZE + j];
+			figure = toolsMap[(SIZE - i - 1) * SIZE + j]; // get char in index col and opposite row
 			this->_figuresArr[i][j] = this->charToFigure(figure , i, j);
-			if (figure == toupper(KING))
+			if (figure == toupper(KING)) // setting white king's location
 			{
 				this->_whiteKingCol = j;
 				this->_whiteKingRow = i;
 			}
 			if (figure == KING)
 			{
-				this->_blackKingCol = j;
+				this->_blackKingCol = j; // setting black king's locatio
 				this->_blackKingRow = i;
 			}
 		}
 	}
 }
 
-Board Board::getBoard(Pipe* p, std::string toolsMap)
+// Create a board object if there isn't any board yet
+Board Board::getBoard(std::string toolsMap)
 {
 	if (Board::_numOfBoards)
 	{
 		throw(std::string("ERROR: Too many boards"));
 	}
 	Board::_numOfBoards++;
-	return Board::Board(p, toolsMap);
+	return Board::Board(toolsMap);
 }
 
+
+// Moves figure on the board (if the move is valid) and returns a move code
 int Board::move(std::string location)
 {
-	int code;
 	Figure* srcFigure = nullptr;
 	Figure* dstFigure = nullptr; 
-	int srcCol = ((int)(location[0])) - A_ASCII_CODE;		// translate location to int
-	int srcRow = ((int)location[1]) - ONE_ASCII_CODE;
+	int srcCol = ((int)(location[0])) - A_ASCII_CODE; // translate location letter to int
+	int srcRow = ((int)location[1]) - ONE_ASCII_CODE; // traanslate cahr to int
 	int dstCol = ((int)(location[2])) - A_ASCII_CODE;
 	int dstRow = ((int)location[3]) - ONE_ASCII_CODE;
-	int tmpKingCol = this->_whiteOrBlack == WHITE ? this->_whiteKingCol : this->_blackKingCol;
-	int tmpKingRow = this->_whiteOrBlack == WHITE ? this->_whiteKingRow : this->_blackKingRow;
-	int kingRow;
-	int kingCol;
-	srcFigure = this->getSrcFigure(srcRow, srcCol);
-	if (this->_isCastling)
-	{
-		if (srcCol != this->_castlingSrcCol || srcRow != this->_castlingSrcRow || dstCol != this->_castlingDstCol || dstRow != this->_castlingDstRow)
+	int kingRow, kingCol, code;
+
+	if (this->_isCastling) // _isCastling == true, the user degan a castling process by mooving the king two cols and now he must place the rook in the correct place
+	{   // rook castling col and row saved in this->_castlingSrcCol and this->_castlingSrcRow if the location from the gui equals to them than the move must be valid.
+		if (srcCol != this->_castlingSrcCol || srcRow != this->_castlingSrcRow || dstCol != this->_castlingDstCol || dstRow != this->_castlingDstRow) 
 		{
 			return ILLEGAL_MOVE;
 		}
-		this->_figuresArr[dstRow][dstCol] = this->_figuresArr[srcRow][srcCol];
+		this->_figuresArr[dstRow][dstCol] = this->_figuresArr[srcRow][srcCol]; // switching figures in array 
 		this->_figuresArr[srcRow][srcCol] = nullptr;
-		this->_isCastling = false;
-		this->_whiteOrBlack = !this->_whiteOrBlack;
-		this->_figuresArr[dstRow][dstCol]->setLocation(dstRow, dstCol);
+		this->_isCastling = false; // castling process is finished
+		this->_whiteOrBlack = !this->_whiteOrBlack; // next turn
+		this->_figuresArr[dstRow][dstCol]->setLocation(dstRow, dstCol); // changes rook object's location
 		return VALID_MOVE;
 	}
-	if (srcFigure == nullptr)
+
+	if (this->_isEnPassent)
+	{
+		if (srcCol != this->_enPassentSrcCol || srcRow != this->_enPassentSrcRow || dstCol != this->_enPassentDstCol || dstRow != this->_enPassentDstRow)
+		{
+			return ILLEGAL_MOVE;
+		}
+		this->_figuresArr[dstRow][dstCol] = this->_figuresArr[srcRow][srcCol]; // switching figures in array 
+		this->_figuresArr[srcRow][srcCol] = nullptr;
+		this->_isEnPassent = false; // castling process is finished
+		this->_whiteOrBlack = !this->_whiteOrBlack; // next turn
+		this->_figuresArr[dstRow][dstCol]->setLocation(dstRow, dstCol); // changes rook object's location
+		return VALID_MOVE;
+	}
+	srcFigure = this->getSrcFigure(srcRow, srcCol); // get the figure that is going to be moved
+	if (srcFigure == nullptr) // if no source than nothiing to move
 	{
 		return INVALID_SRC_FIGURE;
 	}
-	if (this->checkDst(dstRow, dstCol) == TEAM_FIGURE_ON_DST_LOCATION)
+	if (this->checkDst(dstRow, dstCol) == TEAM_FIGURE_ON_DST_LOCATION) // check if dst doesn't contain team's figure
 	{
 		return TEAM_FIGURE_ON_DST_LOCATION;
 	}
+
 	code = srcFigure->isValidMove(dstRow, dstCol);
 	if (code == VALID_MOVE)
 	{
-		dstFigure = this->_figuresArr[dstRow][dstCol];
-		if (this->_figuresArr[srcRow][srcCol]->getType() == PAWN)
+		dstFigure = this->_figuresArr[dstRow][dstCol]; // switching figures in array 
+		if (this->_figuresArr[srcRow][srcCol]->getType() == PAWN) // if PAWN than there is possibility that he reached the end of the board and became a queen
 		{
-			this->_figuresArr[dstRow][dstCol] = dynamic_cast<Pawn*>(this->_figuresArr[srcRow][srcCol])->getNewFigure();
-			if (this->_figuresArr[dstRow][dstCol] != nullptr)
+			this->_figuresArr[dstRow][dstCol] = dynamic_cast<Pawn*>(this->_figuresArr[srcRow][srcCol])->getNewFigure(); // check if the pawn genarated a new figure
+			if (this->_figuresArr[dstRow][dstCol] != nullptr) // if there is a new figure than we need to swich pawn to the new figure
 			{
 				delete this->_figuresArr[srcRow][srcCol];
 				this->_figuresArr[srcRow][srcCol] = nullptr;
 			}
 			else
 			{
-				this->_figuresArr[dstRow][dstCol] = srcFigure;
+				this->_figuresArr[dstRow][dstCol] = srcFigure; // basic case...
 			}
 		}
-		else if(this->_figuresArr[srcRow][srcCol]->getType() != PAWN)
+		else if(this->_figuresArr[srcRow][srcCol]->getType() != PAWN) // if not pawn than just move figures to the correct places
 		{
 			this->_figuresArr[dstRow][dstCol] = srcFigure;
 		}
 		this->_figuresArr[srcRow][srcCol] = nullptr;
-		if (this->_whiteOrBlack == BLACK)
+
+		if (this->_whiteOrBlack == BLACK) // getting white/black king's location
 		{
 			kingRow = this->_blackKingRow;
 			kingCol = this->_blackKingCol;
@@ -139,24 +154,15 @@ int Board::move(std::string location)
 		code = this->isShah(this->_whiteOrBlack, kingRow, kingCol) == true ? MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM : VALID_MOVE;
 		if (code == MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM)
 		{
-			this->_isCastling = false;
-			this->_figuresArr[dstRow][dstCol] = dstFigure;
+			this->_figuresArr[dstRow][dstCol] = dstFigure; // return the figure to theur previous places
 			this->_figuresArr[srcRow][srcCol] = srcFigure;
 			srcFigure->setLocation(srcRow, srcCol);
-			if (this->_whiteOrBlack == WHITE)
-			{
-				//this->_whiteKingCol = tmpKingCol;
-				//this->_whiteKingRow = tmpKingRow;
-				return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
-			}
-			//this->_blackKingCol = tmpKingCol;
-			//this->_blackKingRow = tmpKingRow;
 			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
 		}
 
-		delete dstFigure;
+		delete dstFigure; // no need for dst figure
 		
-		if (this->_whiteOrBlack == WHITE)
+		if (this->_whiteOrBlack == WHITE) // getting white/black king's location
 		{
 			kingRow = this->_blackKingRow;
 			kingCol = this->_blackKingCol;
@@ -166,7 +172,7 @@ int Board::move(std::string location)
 			kingRow = this->_whiteKingRow;
 			kingCol = this->_whiteKingCol;
 		}
-		if (this->isShah(!this->_whiteOrBlack, kingRow, kingCol) == true)
+		if (this->isShah(!this->_whiteOrBlack, kingRow, kingCol) == true) // checking if the move couse shah to the other playes
 		{
 			code = VALID_MOVE_SHAH_ON_OPPONENT;
 			if (this->isCheckmate(!this->_whiteOrBlack))
@@ -178,13 +184,14 @@ int Board::move(std::string location)
 		{
 			code = VALID_MOVE;
 		}
-		this->_whiteOrBlack = !this->_whiteOrBlack;
+		this->_whiteOrBlack = !this->_whiteOrBlack; // switch turn
 	}
 	return code;
 
 }
 
 
+// this function gets row and col and check if the figure on that location is a valid src figure
 Figure* Board::getSrcFigure(int& row, int& col) const
 {
 	Figure* newFigure = nullptr;
@@ -195,6 +202,7 @@ Figure* Board::getSrcFigure(int& row, int& col) const
 	return this->_figuresArr[row][col];
 }
 
+// this function gets row and col and check if the figure on that location is a valid dst figure
 int Board::checkDst(int& row, int& col) const
 {
 	Figure* newFigure = nullptr;
@@ -205,6 +213,7 @@ int Board::checkDst(int& row, int& col) const
 	return TEAM_FIGURE_ON_DST_LOCATION;
 }
 
+// check if there is shah on the king
 bool Board::isShah(const bool blackOrWhite, int row, int col)
 {
 	int i, j, size, kingRow, kingCol, tmpCol, tmpRow;
@@ -229,6 +238,7 @@ bool Board::isShah(const bool blackOrWhite, int row, int col)
 	return isShah;
 }
 
+// translates characted to a figure
 Figure* Board::charToFigure(char f, const int& row, const int& col)
 {
 	Figure* newFigure = nullptr;
@@ -299,7 +309,7 @@ bool Board::isCheckmate(const bool color)
 {
 	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger;
 	Figure* attackingFigure;
-	if (this->_whiteOrBlack == WHITE)
+	if (this->_whiteOrBlack == WHITE) // get king's location
 	{
 		kingRow = this->_blackKingRow;
 		kingCol = this->_blackKingCol;
@@ -309,7 +319,7 @@ bool Board::isCheckmate(const bool color)
 		kingRow = this->_whiteKingRow;
 		kingCol = this->_whiteKingCol;
 	}
-	if (this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol) ||
+	if (this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol) || // check if key can move
 		this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol) ||
 		this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol + 1) ||
 		this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol - 1) ||
@@ -320,11 +330,11 @@ bool Board::isCheckmate(const bool color)
 		return false;
 	}
 	attackingFigure = this->_attackingFigures[0];
-	if (attackingFigure->getType() == KNIGHT || this->_attackingFigures.size() > 1)
+	if (attackingFigure->getType() == KNIGHT || this->_attackingFigures.size() > 1) // if there is more than one attacking figures its a shah or if its knight
 	{
 		return true;
 	}
-	for (i = 0; i < SIZE; i++)
+	for (i = 0; i < SIZE; i++) // check if we can put figure berween the king and the attacking figure
 	{
 		for (j = 0; j < SIZE; j++)
 		{
@@ -430,11 +440,13 @@ bool Board::isCheckmate(const bool color)
 }
 
 
+// returns if the location is empty
 bool Board::isEmpty(int row, int col) const
 {
 	return this->_figuresArr[row][col] == nullptr;
 }
 
+// sets the king location
 void Board::setKingLocation(const int& row, const int& col, bool color)
 {
 	if (color == WHITE)
@@ -447,6 +459,8 @@ void Board::setKingLocation(const int& row, const int& col, bool color)
 	this->_blackKingCol = col;
 }
 
+
+// DTOR
 Board::~Board()
 {
 	for (int i = 0; i < SIZE; i++)

@@ -39,7 +39,7 @@ class Board
 	friend class King;
 	friend class Pawn;
 public:
-	static Board getBoard(Pipe* p, std::string toolsMap = DEFAULT_MAP);
+	static Board getBoard(std::string toolsMap = DEFAULT_MAP);
 	int move(std::string location);
 	bool isEmpty(int row, int col) const;
 	void setKingLocation(const int& row, const int& col, bool color);
@@ -47,18 +47,18 @@ public:
 
 private:
 	std::string createBoardMap() const;
-	Board(Pipe* p, std::string toolsMap);
+	Board(std::string toolsMap);
 	Figure* getSrcFigure(int& row, int& col) const;
 	int checkDst(int& row, int& col) const;
 	bool isShah(const bool blackOrWhite, int row, int col);
 	Figure* charToFigure(char f, const int& row, const int& col);
 	bool isCheckmate(const bool color);
 
-	//std::vector<int> _blackFigures;
-	//std::vector<int> _whiteFigures;
+
 	std::vector<Figure*> _attackingFigures;
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;
+	bool _isEnPassent;
 	bool _isCastling;
 	int _whiteKingCol;
 	int _whiteKingRow;
@@ -68,7 +68,9 @@ private:
 	int _castlingSrcCol;
 	int _castlingDstRow;
 	int _castlingDstCol;
+	int _enPassentSrcCol;
+	int _enPassentSrcRow;
+	int _enPassentDstCol;
+	int _enPassentDstRow;
 	static int _numOfBoards;
-	Pipe* _p;
-	
 };

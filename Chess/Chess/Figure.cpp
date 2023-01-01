@@ -21,10 +21,12 @@ bool Figure::getColor() const
 	return this->_color;
 }
 
+
 std::string Figure::getLocation() const
 {
 	return std::string();
 }
+
 
 void Figure::setLocation(const int& row, const int& col)
 {
@@ -32,15 +34,18 @@ void Figure::setLocation(const int& row, const int& col)
 	this->_col = col;
 }
 
+
 int Figure::getCol() const
 {
 	return this->_col;
 }
 
+
 int Figure::getRow() const
 {
 	return this->_row;
 }
+
 
 char Figure::getType() const
 {
