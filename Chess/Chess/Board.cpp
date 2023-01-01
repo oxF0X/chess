@@ -4,32 +4,6 @@ class Board;
 int Board::_numOfBoards = 0;
 
 
-std::string Board::createBoardMap() const
-{
-	std::string map = "";
-	int i, j;
-	for (i = 0; i < SIZE; i++)
-	{
-		for (j = 0; j < SIZE; j++)
-		{
-			if (this->_figuresArr[SIZE - i - 1][j] == nullptr) 
-			{
-				map += '#';
-			}
-			else if(this->_figuresArr[SIZE - i - 1][j]->getColor() == BLACK)
-			{ 
-				map += this->_figuresArr[SIZE - i - 1][j]->getType();
-			}
-			else
-			{
-				map += toupper(this->_figuresArr[SIZE - i - 1][j]->getType());
-			}
-		}
-	}
-	map += char(!this->_whiteOrBlack) + ZERO_ASCII_CODE;
-	return map;
-}
-
 // CTOR
 Board::Board(std::string toolsMap)
 {
@@ -81,7 +55,7 @@ int Board::move(std::string location)
 	int dstRow = ((int)location[3]) - ONE_ASCII_CODE;
 	int kingRow, kingCol, code;
 
-	if (this->_isCastling) // _isCastling == true, the user degan a castling process by mooving the king two cols and now he must place the rook in the correct place
+	if (this->_isCastling) // _isCastling == true, the user began a castling process by mooving the king two cols and now he must place the rook in the correct place
 	{   // rook castling col and row saved in this->_castlingSrcCol and this->_castlingSrcRow if the location from the gui equals to them than the move must be valid.
 		if (srcCol != this->_castlingSrcCol || srcRow != this->_castlingSrcRow || dstCol != this->_castlingDstCol || dstRow != this->_castlingDstRow) 
 		{
@@ -95,7 +69,7 @@ int Board::move(std::string location)
 		return VALID_MOVE;
 	}
 
-	if (this->_isEnPassent)
+	if (this->_isEnPassent) // _isEnPassen == true, the user began an enpassent process, to fix the GUI the user has to eat "correctly" the pawn and than move it to it's real place
 	{
 		if (srcCol != this->_enPassentSrcCol || srcRow != this->_enPassentSrcRow || dstCol != this->_enPassentDstCol || dstRow != this->_enPassentDstRow)
 		{
@@ -154,7 +128,7 @@ int Board::move(std::string location)
 		code = this->isShah(this->_whiteOrBlack, kingRow, kingCol) == true ? MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM : VALID_MOVE;
 		if (code == MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM)
 		{
-			this->_figuresArr[dstRow][dstCol] = dstFigure; // return the figure to theur previous places
+			this->_figuresArr[dstRow][dstCol] = dstFigure; // return the figure to it's previous places
 			this->_figuresArr[srcRow][srcCol] = srcFigure;
 			srcFigure->setLocation(srcRow, srcCol);
 			return MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM;
@@ -321,18 +295,25 @@ bool Board::isCheckmate(const bool color)
 	}
 	if ((this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol + 1)) == false) &&
 			(this->isEmpty(kingRow - 1, kingCol + 1) || this->_figuresArr[kingRow - 1][kingCol + 1]->getColor() != color) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol) == false) &&
-			(this->isEmpty(kingRow + 1, kingCol) || this->_figuresArr[kingRow + 1][kingCol]->getColor() != color)) || // check if key can move
+			(this->isEmpty(kingRow + 1, kingCol) || this->_figuresArr[kingRow + 1][kingCol]->getColor() != color)) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol) == false) && 
 			(this->isEmpty(kingRow - 1, kingCol) || this->_figuresArr[kingRow - 1][kingCol]->getColor() != color))||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol + 1) == false) &&
 			(this->isEmpty(kingRow + 1, kingCol + 1) || this->_figuresArr[kingRow + 1][kingCol + 1]->getColor() != color)) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol - 1) == false) &&
 			(this->isEmpty(kingRow - 1, kingCol - 1) || this->_figuresArr[kingRow - 1][kingCol -1]->getColor() != color)) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol + 1) == false) &&
 			(this->isEmpty(kingRow, kingCol + 1) || this->_figuresArr[kingRow][kingCol + 1]->getColor() != color)) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol - 1)) == false) &&
 			(this->isEmpty(kingRow, kingCol - 1) || this->_figuresArr[kingRow][kingCol - 1]->getColor() != color) ||
+
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol - 1)) == false) &&
 			(this->isEmpty(kingRow + 1, kingCol - 1) || this->_figuresArr[kingRow + 1][kingCol - 1]->getColor() != color))
 	{

@@ -48,7 +48,7 @@ int Bishop::isValidMove(const int& row, const int& col)
 		}
 		else
 		{
-			for (j = this->_col - 1, i = this->_row - 1; i < row; i--, j--)
+			for (j = this->_col - 1, i = this->_row - 1; i > row; i--, j--)
 			{
 				if (!this->_boardPtr->isEmpty(i, j))
 				{

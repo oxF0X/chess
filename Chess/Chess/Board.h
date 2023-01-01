@@ -10,7 +10,6 @@
 #include "Pawn.h"
 #include "Queen.h"
 #include "Rook.h"
-#include "Pipe.h"
 
 
 #define WHITE false
@@ -46,7 +45,6 @@ public:
 	virtual ~Board();
 
 private:
-	std::string createBoardMap() const;
 	Board(std::string toolsMap);
 	Figure* getSrcFigure(int& row, int& col) const;
 	int checkDst(int& row, int& col) const;

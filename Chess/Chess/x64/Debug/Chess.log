@@ -1,2 +1,7 @@
-﻿  Knight.cpp
+﻿  Bishop.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,22): warning C4101: 'biggerRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,54): warning C4101: 'tmpCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,33): warning C4101: 'lowerCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,12): warning C4101: 'lowerRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,43): warning C4101: 'biggerCol': unreferenced local variable
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe
