@@ -23,7 +23,8 @@ void main()
 	// srand(time_t(NULL));
 	//"r##k##nr################################################R#BK###R0"
 	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
-	std::string map = "RNB#K##RP##############################################pr###kbnr0";
+	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
+	std::string map = "RNB#K##RPPPPPPP###################################ppppppr###kbnr0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 

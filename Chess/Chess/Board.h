@@ -52,9 +52,11 @@ private:
 	int checkDst(int& row, int& col) const;
 	bool isShah(const bool blackOrWhite, int row, int col);
 	Figure* charToFigure(char f, const int& row, const int& col);
+	bool isCheckmate(const bool color);
 
 	//std::vector<int> _blackFigures;
 	//std::vector<int> _whiteFigures;
+	std::vector<Figure*> _attackingFigures;
 	Figure* _figuresArr[SIZE][SIZE];
 	bool _whiteOrBlack;
 	bool _isCastling;

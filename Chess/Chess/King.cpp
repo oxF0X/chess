@@ -121,3 +121,18 @@ int King::isValidMove(const int& row, const int& col)
 	}
 	return ILLEGAL_MOVE;
 }
+
+
+void King::setLocation(const int& row, const int& col)
+{
+	this->_row = row;
+	this->_col = col;
+	if (this->_color == WHITE)
+	{
+		this->_boardPtr->_whiteKingRow = row;
+		this->_boardPtr->_whiteKingCol = col;
+		return;
+	}
+	this->_boardPtr->_blackKingRow = row;
+	this->_boardPtr->_blackKingCol = col;
+}

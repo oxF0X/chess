@@ -16,11 +16,15 @@ int Kinght::isValidMove(const int& row, const int& col)
 	//return ILLEGAL_MOVE;
 	bool valid1 = abs(this->_row - row) == 1 && abs(this->_col - col) == 2 && 
 		(this->_boardPtr->isEmpty(this->_row, this->_col + 1) || this->_boardPtr->isEmpty(this->_row, this->_col + 2) ||
-			this->_boardPtr->isEmpty(this->_row + 1, this->_col) || this->_boardPtr->isEmpty(this->_row + 1, this->_col + 1));
+			this->_boardPtr->isEmpty(this->_row + 1, this->_col) || this->_boardPtr->isEmpty(this->_row + 1, this->_col + 1) ||
+			(this->_boardPtr->isEmpty(this->_row, this->_col - 1) || this->_boardPtr->isEmpty(this->_row, this->_col - 2) ||
+				this->_boardPtr->isEmpty(this->_row - 1, this->_col) || this->_boardPtr->isEmpty(this->_row - 1, this->_col - 1)));
 
 	bool valid2 = abs(this->_row - row) == 2 && abs(this->_col - col) == 1 && 
 		(this->_boardPtr->isEmpty(this->_row + 1, this->_col) || this->_boardPtr->isEmpty(this->_row + 2, this->_col)
-			|| this->_boardPtr->isEmpty(this->_row, col ) || this->_boardPtr->isEmpty(this->_row + 1, col));
+			|| this->_boardPtr->isEmpty(this->_row, col ) || this->_boardPtr->isEmpty(this->_row + 1, col) ||
+			this->_boardPtr->isEmpty(this->_row - 1, this->_col) || this->_boardPtr->isEmpty(this->_row - 2, this->_col ||
+				this->_boardPtr->isEmpty(this->_row, col) || this->_boardPtr->isEmpty(this->_row - 1, col)));
 
 	if (valid1 || valid2)
 	{

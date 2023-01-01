@@ -15,7 +15,7 @@ public:
 	virtual int isValidMove(const int& row, const int& col) = 0;
 	bool getColor() const;
 	std::string getLocation() const;
-	void setLocation(const int& row, const int& col);
+	virtual void setLocation(const int& row, const int& col);
 	int getCol() const;
 	int getRow() const;
 	char getType() const;
