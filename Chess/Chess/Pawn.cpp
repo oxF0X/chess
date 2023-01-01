@@ -19,18 +19,32 @@ int Pawn::isValidMove(const int& row, const int& col)
 	Queen* q;
 
 	bool valid1 = (this->_row - row) == 1 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == BLACK;
-	bool valid2 = (this->_row - row) == 1 && abs(this->_col - col) == 1 && !this->_boardPtr->isEmpty(row, col) == 1 && this->getColor() == BLACK;
-	bool valid3 = (this->_row - row) == -1 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == WHITE;
-	bool valid4 = (this->_row - row) == -1 && abs(this->_col - col) == 1 && !this->_boardPtr->isEmpty(row, col) == 1 && this->getColor() == WHITE;
-	bool valid5 = (this->_row - row) == -2 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == WHITE && this->_isFirstMove;
-	bool valid6 = (this->_row - row) == 2 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == BLACK && this->_isFirstMove;
-	bool valid7 = ((this->_row - row == 0 ) && (abs(this->_col - col) == 1) && (this->_boardPtr->isEmpty(row - 1, col)) && (this->getColor() == BLACK) &&
-		(this->_boardPtr->isEmpty(3, col) == false) &&(this->_boardPtr->_figuresArr[3][col]->getType() == PAWN)
-		&& (this->_boardPtr->_figuresArr[3][col]->getColor() == !this->_color) && (dynamic_cast<Pawn*>(this->_boardPtr->_figuresArr[3][col])->isFirstMove2Rows()));
 
-	bool valid8 = ((this->_row - row == 0) && (abs(this->_col - col) == 1) && (this->_boardPtr->isEmpty(5, col)) && (this->getColor() == WHITE) 
-		&& (this->_boardPtr->isEmpty(4, col) == false) && (this->_boardPtr->_figuresArr[4][col]->getType() == PAWN)
-		&& (this->_boardPtr->_figuresArr[4][col]->getColor() == !this->_color) && (dynamic_cast<Pawn*>(this->_boardPtr->_figuresArr[4][col])->isFirstMove2Rows()));
+	bool valid2 = (this->_row - row) == 1 && abs(this->_col - col) == 1 && !this->_boardPtr->isEmpty(row, col) == 1 && this->getColor() == BLACK;
+
+	bool valid3 = (this->_row - row) == -1 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == WHITE;
+
+	bool valid4 = (this->_row - row) == -1 && abs(this->_col - col) == 1 && !this->_boardPtr->isEmpty(row, col) == 1 && this->getColor() == WHITE;
+
+	bool valid5 = (this->_row - row) == -2 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == WHITE && this->_isFirstMove;
+
+	bool valid6 = (this->_row - row) == 2 && this->_col - col == 0 && !this->_boardPtr->isEmpty(row, col) == 0 && this->getColor() == BLACK && this->_isFirstMove;
+
+	bool valid7 = ((this->_row - row == 0 ) && (abs(this->_col - col) == 1) && 
+		(this->_boardPtr->isEmpty(row - 1, col)) && (this->getColor() == BLACK) &&
+		(this->_boardPtr->isEmpty(3, col) == false) && 
+		(this->_boardPtr->_figuresArr[3][col]->getColor() == WHITE) &&
+		(this->_boardPtr->_figuresArr[3][col]->getType() == PAWN) &&
+		(this->_boardPtr->_figuresArr[3][col]->getColor() == !this->_color) &&
+		(dynamic_cast<Pawn*>(this->_boardPtr->_figuresArr[3][col])->isFirstMove2Rows()));
+
+	bool valid8 = ((this->_row - row == 0) && (abs(this->_col - col) == 1) && 
+		(this->_boardPtr->isEmpty(row + 1, col)) && (this->getColor() == WHITE) &&
+		(this->_boardPtr->isEmpty(4, col) == false) && 
+		(this->_boardPtr->_figuresArr[4][col]->getColor() == BLACK) &&
+		(this->_boardPtr->_figuresArr[4][col]->getType() == PAWN) &&
+		(this->_boardPtr->_figuresArr[4][col]->getColor() == !this->_color) && 
+		(dynamic_cast<Pawn*>(this->_boardPtr->_figuresArr[4][col])->isFirstMove2Rows()));
 
 	if (valid1 || valid2 || valid3 || valid4 || valid5 || valid6)
 	{
@@ -38,8 +52,8 @@ int Pawn::isValidMove(const int& row, const int& col)
 		{
 			this->_firstMove2Rows = true;
 		}
-		if (row == SIZE - 1 && this->_color == BLACK ||
-			row == 0 && this->_color == WHITE)
+		if (row == SIZE - 1 && this->_color == WHITE ||
+			row == 0 && this->_color == BLACK)
 		{
 			q = new Queen(row, col, this->_color, this->_boardPtr);
 			this->_newFigure = q;

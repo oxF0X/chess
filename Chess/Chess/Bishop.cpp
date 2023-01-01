@@ -56,6 +56,8 @@ int Bishop::isValidMove(const int& row, const int& col)
 				}
 			}
 		}
+		this->_row = row;
+		this->_col = col;
 		return VALID_MOVE;
 	}
 	return ILLEGAL_MOVE;

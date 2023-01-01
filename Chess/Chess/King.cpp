@@ -21,7 +21,7 @@ int King::isValidMove(const int& row, const int& col)
 	Rook* r;
 	int i, tmpCol, tmpRow;
 	std::string map;
-	if (col - this->_col == 2&& this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 7) && 
+	if (col - this->_col == 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 7) && 
 		this->_boardPtr->_figuresArr[this->_row][7]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][7]->getColor() == this->_color)
 	{
 		for (i = 4; i < SIZE; i++) // cheking if king not ins hah while mooving
@@ -56,7 +56,7 @@ int King::isValidMove(const int& row, const int& col)
 		return VALID_MOVE;
 	}
 
-	if (this->_col - col== 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 0) &&
+	if (this->_col - col == 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 0) &&
 		this->_boardPtr->_figuresArr[this->_row][0]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][0]->getColor() == this->_color)
 	{
 		for (i = 3; i >= 2; i--) // cheking if king not ins hah while mooving
@@ -80,15 +80,16 @@ int King::isValidMove(const int& row, const int& col)
 		this->_boardPtr->_castlingDstCol = 2;
 		this->_boardPtr->_castlingDstRow = this->_row;
 		this->_boardPtr->_whiteOrBlack = !this->_boardPtr->_whiteOrBlack;
-		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7]);
+		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][0]);
 		r->_isFirstMove = false;
 		this->setLocation(this->_row, 2);
 		this->_isFirstMove = false;
 		return VALID_MOVE;
 	}
-	if (abs(this->_row - row) == 1 && abs(this->_col - col) == 1 || // regular move
+	if ((abs(this->_row - row) == 1 && abs(this->_col - col) == 1 || // regular move
 		abs(this->_row - row) == 0 && abs(this->_col - col) == 1 ||
-		abs(this->_row - row) == 1 && abs(this->_col - col) == 0)
+		abs(this->_row - row) == 1 && abs(this->_col - col) == 0) &&		
+		!(row >= SIZE || col >= SIZE || col < 0 || row < 0))
 	{
 		this->_isFirstMove = false; // nt the first move naymore
 		this->setLocation(row, col);
