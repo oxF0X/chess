@@ -32,6 +32,19 @@ Board::Board(std::string toolsMap)
 	}
 }
 
+void Board::getKingRowAndCol(bool color, int* row, int* col) const
+{
+	if (color == WHITE) // setting white king's location
+	{
+		*col = this->_whiteKingCol;
+		*row = this->_whiteKingRow;
+		return;
+	}
+
+	*col  = this->_blackKingCol; // setting black king's locatio
+	*row = this->_blackKingRow;
+}
+
 // Create a board object if there isn't any board yet
 Board Board::getBoard(std::string toolsMap)
 {
@@ -115,16 +128,8 @@ int Board::move(std::string location)
 		}
 		this->_figuresArr[srcRow][srcCol] = nullptr;
 
-		if (this->_whiteOrBlack == BLACK) // getting white/black king's location
-		{
-			kingRow = this->_blackKingRow;
-			kingCol = this->_blackKingCol;
-		}
-		else
-		{
-			kingRow = this->_whiteKingRow;
-			kingCol = this->_whiteKingCol;
-		}
+		this->getKingRowAndCol(this->_whiteOrBlack, &kingRow, &kingCol);
+
 		code = this->isShah(this->_whiteOrBlack, kingRow, kingCol) == true ? MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM : VALID_MOVE;
 		if (code == MOVE_WILL_CAUSE_SHAH_ON_THE_TEAM)
 		{
@@ -135,17 +140,7 @@ int Board::move(std::string location)
 		}
 
 		delete dstFigure; // no need for dst figure
-		
-		if (this->_whiteOrBlack == WHITE) // getting white/black king's location
-		{
-			kingRow = this->_blackKingRow;
-			kingCol = this->_blackKingCol;
-	    	}
-		else
-		{
-			kingRow = this->_whiteKingRow;
-			kingCol = this->_whiteKingCol;
-		}
+		this->getKingRowAndCol(!this->_whiteOrBlack, &kingRow, &kingCol);
 		if (this->isShah(!this->_whiteOrBlack, kingRow, kingCol) == true) // checking if the move couse shah to the other playes
 		{
 			code = VALID_MOVE_SHAH_ON_OPPONENT;
@@ -281,6 +276,39 @@ Figure* Board::charToFigure(char f, const int& row, const int& col)
 	return newFigure;
 }
 
+// returns if the location is empty
+bool Board::isEmpty(int row, int col) const
+{
+	return this->_figuresArr[row][col] == nullptr;
+}
+
+// sets the king location
+void Board::setKingLocation(const int& row, const int& col, bool color)
+{
+	if (color == WHITE)
+	{
+		this->_whiteKingRow = row;
+		this->_whiteKingCol = col;
+		return;
+	}
+	this->_blackKingRow = row;
+	this->_blackKingCol = col;
+}
+
+
+// DTOR
+Board::~Board()
+{
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			delete this->_figuresArr[i][j];
+		}
+	}
+}
+
+
 bool Board::isCheckmate(const bool color)
 {
 	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger, size = this->_attackingFigures.size();
@@ -340,16 +368,7 @@ bool Board::isCheckmate(const bool color)
 				{
 					this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[i][j];
 					this->_figuresArr[i][j] = nullptr;
-					if (this->_whiteOrBlack == WHITE) // get king's location
-					{
-						kingRow = this->_blackKingRow;
-						kingCol = this->_blackKingCol;
-					}
-					else
-					{
-						kingRow = this->_whiteKingRow;
-						kingCol = this->_whiteKingCol;
-					}
+					this->getKingRowAndCol(!this->_whiteOrBlack, &kingRow, &kingCol);
 					if (this->isShah(color, kingRow, kingCol) == false)
 					{
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = dst;
@@ -521,36 +540,4 @@ bool Board::isCheckmate(const bool color)
 	return true;
 }
 
-
-// returns if the location is empty
-bool Board::isEmpty(int row, int col) const
-{
-	return this->_figuresArr[row][col] == nullptr;
-}
-
-// sets the king location
-void Board::setKingLocation(const int& row, const int& col, bool color)
-{
-	if (color == WHITE)
-	{
-		this->_whiteKingRow = row;
-		this->_whiteKingCol = col;
-		return;
-	}
-	this->_blackKingRow = row;
-	this->_blackKingCol = col;
-}
-
-
-// DTOR
-Board::~Board()
-{
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
-			delete this->_figuresArr[i][j];
-		}
-	}
-}
 

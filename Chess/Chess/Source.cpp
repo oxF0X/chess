@@ -24,8 +24,8 @@ void main()
 	//"r##k##nr################################################R#BK###R0"
 	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
 	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
-	std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
-	//std::string map = "########pppppppp################################PPPPPPPP########0";
+	//////////std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
+	std::string map = "########pppppppp################################PPPPPPPP########0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 
@@ -54,10 +54,6 @@ void main()
 	
 
 	char msgToGraphics[1024];
-	// msgToGraphics should contain the board string accord the protocol
-	// YOUR CODE
-	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
-	//r##############################################################R0
 	
 	strcpy_s(msgToGraphics, map.c_str()); // just example...
 	
@@ -68,18 +64,10 @@ void main()
 	std::string code = "";
 	while (msgFromGraphics != "quit")
 	{
-		// should handle the string the sent from graphics
-		// according the protocol. Ex: e2e4           (move e2 to e4)
-		// YOUR CODE
+
 		code = (char)(board.move(msgFromGraphics)) + ZERO_ASCII_CODE;
 		strcpy_s(msgToGraphics, code.c_str()); // msgToGraphics should contain the result of the operation
 		std::cout << "Code from board: " << code << std::endl;
-		/******* JUST FOR EREZ DEBUGGING ******/
-		//int r = rand() % 10; // just for debugging......
-		//msgToGraphics[0] = (char)(1 + '0');
-		//msgToGraphics[1] = 0;
-		/******* JUST FOR EREZ DEBUGGING ******/
-
 
 		// return result to graphics		
 		p.sendMessageToGraphics(msgToGraphics);  

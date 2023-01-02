@@ -22,7 +22,8 @@ int King::isValidMove(const int& row, const int& col)
 	int i, tmpCol, tmpRow;
 	std::string map;
 	if (col - this->_col == 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 7) && 
-		this->_boardPtr->_figuresArr[this->_row][7]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][7]->getColor() == this->_color)
+		this->_boardPtr->_figuresArr[this->_row][7]->getType() == ROOK && dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7])->_isFirstMove && 
+		this->_boardPtr->_figuresArr[this->_row][7]->getColor() == this->_color)
 	{
 		for (i = 4; i < SIZE; i++) // cheking if king not ins hah while mooving
 		{
@@ -57,7 +58,8 @@ int King::isValidMove(const int& row, const int& col)
 	}
 
 	if (this->_col - col == 2 && this->_row == row && this->_isFirstMove && !this->_boardPtr->isEmpty(this->_row, 0) &&
-		this->_boardPtr->_figuresArr[this->_row][0]->getType() == ROOK && this->_boardPtr->_figuresArr[this->_row][0]->getColor() == this->_color)
+		this->_boardPtr->_figuresArr[this->_row][0]->getType() == ROOK && dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][0])->_isFirstMove &&
+		this->_boardPtr->_figuresArr[this->_row][0]->getColor() == this->_color)
 	{
 		for (i = 3; i >= 2; i--) // cheking if king not ins hah while mooving
 		{

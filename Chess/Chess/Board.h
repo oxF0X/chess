@@ -46,6 +46,7 @@ public:
 
 private:
 	Board(std::string toolsMap);
+	void getKingRowAndCol(bool color, int* row, int* col) const;
 	Figure* getSrcFigure(int& row, int& col) const;
 	int checkDst(int& row, int& col) const;
 	bool isShah(const bool blackOrWhite, int row, int col);
