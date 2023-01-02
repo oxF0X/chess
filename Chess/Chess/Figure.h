@@ -4,19 +4,26 @@
 #include <string>
 
 
+
+class Board;
+
 class Figure
 {
 public:
-	Figure(std::string location, bool isWhite);
-	~Figure();
-	virtual int isValidMove(const std::string& move) = 0;
-	virtual bool canEat(const std::string& move) = 0;
-	void setLocation(const std::string& newLocation);
-	bool isWhiteColor() const;
+	Figure(const int& row, const int& col, bool color, Board* boardPtr);
+	virtual ~Figure();
+	virtual int isValidMove(const int& row, const int& col) = 0;
+	bool getColor() const;
 	std::string getLocation() const;
+	virtual void setLocation(const int& row, const int& col);
+	int getCol() const;
+	int getRow() const;
+	char getType() const;
 
 protected:
-	bool isWhite;
-	std::string location;
-
+	char _type;
+	bool _color;
+	int _row;
+	int _col;
+	Board* _boardPtr;
 };

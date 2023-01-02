@@ -7,6 +7,9 @@ in order to read and write information from and to the Backend
 #include "Pipe.h"
 #include <iostream>
 #include <thread>
+#include "Board.h"
+#include <chrono>
+
 
 using std::cout;
 using std::endl;
@@ -15,12 +18,20 @@ using std::string;
 
 void main()
 {
-	srand(time_t(NULL));
+	system("Start chessGraphics.exe");
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	// srand(time_t(NULL));
+	//"r##k##nr################################################R#BK###R0"
+	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
+	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
+	//////////std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
+	std::string map = "########pppppppp################################PPPPPPPP########0";
+	//reverse(map.begin(), map.end());
+	//map += "0";
 
-	
 	Pipe p;
+	Board board = Board::getBoard(map);
 	bool isConnect = p.connect();
-	
 	string ans;
 	while (!isConnect)
 	{
@@ -43,33 +54,24 @@ void main()
 	
 
 	char msgToGraphics[1024];
-	// msgToGraphics should contain the board string accord the protocol
-	// YOUR CODE
-
-	strcpy_s(msgToGraphics, "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR1"); // just example...
+	
+	strcpy_s(msgToGraphics, map.c_str()); // just example...
 	
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
 	// get message from graphics
 	string msgFromGraphics = p.getMessageFromGraphics();
-
+	std::string code = "";
 	while (msgFromGraphics != "quit")
 	{
-		// should handle the string the sent from graphics
-		// according the protocol. Ex: e2e4           (move e2 to e4)
-		
-		// YOUR CODE
-		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
 
-		/******* JUST FOR EREZ DEBUGGING ******/
-		//int r = rand() % 10; // just for debugging......
-		//msgToGraphics[0] = (char)(1 + '0');
-		//msgToGraphics[1] = 0;
-		/******* JUST FOR EREZ DEBUGGING ******/
-
+		code = (char)(board.move(msgFromGraphics)) + ZERO_ASCII_CODE;
+		strcpy_s(msgToGraphics, code.c_str()); // msgToGraphics should contain the result of the operation
+		std::cout << "Code from board: " << code << std::endl;
 
 		// return result to graphics		
-		p.sendMessageToGraphics(msgToGraphics);   
+		p.sendMessageToGraphics(msgToGraphics);  
+ 
 
 		// get message from graphics
 		msgFromGraphics = p.getMessageFromGraphics();
