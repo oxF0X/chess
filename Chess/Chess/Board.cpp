@@ -321,11 +321,8 @@ bool Board::isCheckmate(const bool color)
 		return false;
 	}
 	attackingFigure = this->_attackingFigures[0];
-	if (attackingFigure->getType() == KNIGHT || this->_attackingFigures.size() > 1) // if there is more than one attacking figures its a shah or if its knight
-	{
-		return true;
-	}
-	for (i = 0; i < SIZE; i++) // check if we can put figure berween the king and the attacking figure
+
+	for (i = 0; i < SIZE; i++) //check if we can eat the attacking figure
 	{
 		for (j = 0; j < SIZE; j++)
 		{
@@ -341,7 +338,13 @@ bool Board::isCheckmate(const bool color)
 			}
 		}
 	}
-	if (kingRow == attackingFigure->getRow())
+
+	if (attackingFigure->getType() == KNIGHT || this->_attackingFigures.size() > 1) // if there is more than one attacking figures its a shah or if its knight
+	{
+		return true;
+	}
+
+	if (kingRow == attackingFigure->getRow()) // check if we can put figure berween the king and the attacking figure
 	{
 		lower = kingRow < attackingFigure->getRow() ? kingRow : attackingFigure->getRow();
 		bigger = lower + abs(kingRow - attackingFigure->getRow());
