@@ -114,3 +114,13 @@ void King::setLocation(const int& row, const int& col)
 	this->_boardPtr->_blackKingRow = row;
 	this->_boardPtr->_blackKingCol = col;
 }
+
+bool King::isFirstMove() const
+{
+	return this->_isFirstMove;
+}
+
+void King::setFirstMove(bool move)
+{
+	this->_isFirstMove = move;
+}

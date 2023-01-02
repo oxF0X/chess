@@ -11,6 +11,8 @@ public:
 	int isValidMove(const int& row, const int& col) override;
 	bool isFirstMove2Rows() const;
 	Figure* getNewFigure() const;
+	void setFirstMove(bool ifFirstMove);
+	bool isFirstMove() const;
 
 private:
 	Figure* _newFigure;

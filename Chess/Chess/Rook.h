@@ -2,7 +2,6 @@
 
 #include "Figure.h"
 #include "MathUtils.h"
-//#include "King.h"
 
 class Board;
 
@@ -13,6 +12,8 @@ public:
 	Rook(const int& row, const int& col, bool isWhite, Board* boardPtr);
 	virtual ~Rook();
 	int isValidMove(const int& row, const int& col) override;
+	bool isFirstMove() const;
+	void setFirstMove(bool move);
 
 private:
 	bool _isFirstMove;

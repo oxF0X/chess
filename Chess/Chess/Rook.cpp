@@ -54,3 +54,13 @@ int Rook::isValidMove(const int& row, const int& col)
 	}
 	
 }
+
+bool Rook::isFirstMove() const
+{
+	return this->_isFirstMove;
+}
+
+void Rook::setFirstMove(bool move)
+{
+	this->_isFirstMove = move;
+}

@@ -100,3 +100,13 @@ Figure* Pawn::getNewFigure() const
 {
 	return this->_newFigure;
 }
+
+void Pawn::setFirstMove(bool ifFirstMove)
+{
+	this->_isFirstMove = _isFirstMove;
+}
+
+bool Pawn::isFirstMove() const
+{
+	return this->_isFirstMove;
+}

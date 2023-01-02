@@ -1,4 +1,22 @@
-﻿  Source.cpp
+﻿  Bishop.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,22): warning C4101: 'biggerRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,54): warning C4101: 'tmpCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,33): warning C4101: 'lowerCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,12): warning C4101: 'lowerRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Bishop.cpp(16,43): warning C4101: 'biggerCol': unreferenced local variable
+  Board.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,27): warning C4101: 'kingCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,12): warning C4101: 'size': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,18): warning C4101: 'kingRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(326,104): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(326,112): warning C4101: 'tmp2': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(326,106): warning C4101: 'tmp1': unreferenced local variable
+  King.cpp
+  Knight.cpp
+  Pawn.cpp
+  Queen.cpp
+  Rook.cpp
+  Source.cpp
 C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Source.cpp(20,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  LINK : C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe not found or not built by the last incremental link; performing full link
+  Generating Code...
   Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

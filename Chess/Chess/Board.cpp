@@ -144,11 +144,11 @@ int Board::move(std::string location)
 		if (this->isShah(!this->_whiteOrBlack, kingRow, kingCol) == true) // checking if the move couse shah to the other playes
 		{
 			code = VALID_MOVE_SHAH_ON_OPPONENT;
-			//if (this->isCheckmate(!this->_whiteOrBlack))
-			//{
-			//	code = CHECKMATE;
-			//}
-			//this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
+			if (this->isCheckmate(!this->_whiteOrBlack))
+			{
+				code = CHECKMATE;
+			}
+			this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
 		}
 		else
 		{
@@ -201,6 +201,18 @@ bool Board::isShah(const bool blackOrWhite, int row, int col)
 				{
 					this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
 					this->_attackingFigures.push_back(this->_figuresArr[i][j]);
+					if (this->_figuresArr[i][j]->getType() == PAWN && dynamic_cast<Pawn*>(this->_figuresArr[i][j])->isFirstMove())
+					{
+						dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(true);
+					}
+					if (this->_figuresArr[i][j]->getType() == ROOK && dynamic_cast<Rook*>(this->_figuresArr[i][j])->isFirstMove())
+					{
+						dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(true);
+					}
+					if (this->_figuresArr[i][j]->getType() == KING && dynamic_cast<King*>(this->_figuresArr[i][j])->isFirstMove())
+					{
+						dynamic_cast<King*>(this->_figuresArr[i][j])->setFirstMove(true);
+					}
 					isShah = true;
 				}
 			}
@@ -279,7 +291,7 @@ Figure* Board::charToFigure(char f, const int& row, const int& col)
 // returns if the location is empty
 bool Board::isEmpty(int row, int col) const
 {
-	return this->_figuresArr[row][col] == nullptr;
+	return row > SIZE - 1 || col > SIZE - 1 || row < 0 || col < 0 || this->_figuresArr[row][col] == nullptr;
 }
 
 // sets the king location
@@ -311,44 +323,37 @@ Board::~Board()
 
 bool Board::isCheckmate(const bool color)
 {
-	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger, size = this->_attackingFigures.size();
+	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger, size = this->_attackingFigures.size(), tmp1, tmp2;
 	Figure* attackingFigure = this->_attackingFigures[0];
 	Figure* src = nullptr;
     Figure*	dst = nullptr;
-	if (this->_whiteOrBlack == WHITE) // get king's location
+	this->getKingRowAndCol(!this->_whiteOrBlack, &kingRow, &kingCol);
+
+	if ((this->isEmpty(kingRow - 1, kingCol + 1) || this->_figuresArr[kingRow - 1][kingCol + 1]->getColor() != color) &&
+		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol + 1)) == false) ||
+
+		((this->isEmpty(kingRow + 1, kingCol) || this->_figuresArr[kingRow + 1][kingCol]->getColor() != color) && 
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol) == false))) ||
+		
+		((this->isEmpty(kingRow - 1, kingCol) || this->_figuresArr[kingRow - 1][kingCol]->getColor() != color) &&
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol) == false))) ||
+
+		((this->isEmpty(kingRow + 1, kingCol + 1) || this->_figuresArr[kingRow + 1][kingCol + 1]->getColor() != color) &&
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol + 1) == false))) ||
+
+		((this->isEmpty(kingRow - 1, kingCol - 1) || this->_figuresArr[kingRow - 1][kingCol - 1]->getColor() != color) &&
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol - 1) == false))) ||
+
+		((this->isEmpty(kingRow, kingCol + 1) || this->_figuresArr[kingRow][kingCol + 1]->getColor() != color) && 
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol + 1) == false)))  ||
+
+		((this->isEmpty(kingRow, kingCol - 1) || this->_figuresArr[kingRow][kingCol - 1]->getColor() != color) &&
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol - 1) == false))) ||
+		
+		((this->isEmpty(kingRow + 1, kingCol - 1) || this->_figuresArr[kingRow + 1][kingCol - 1]->getColor() != color) &&
+			(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol - 1) == false))))
 	{
-		kingRow = this->_blackKingRow;
-		kingCol = this->_blackKingCol;
-	}
-	else
-	{
-		kingRow = this->_whiteKingRow;
-		kingCol = this->_whiteKingCol;
-	}
-	if ((this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol + 1)) == false) &&
-			(this->isEmpty(kingRow - 1, kingCol + 1) || this->_figuresArr[kingRow - 1][kingCol + 1]->getColor() != color) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol) == false) &&
-			(this->isEmpty(kingRow + 1, kingCol) || this->_figuresArr[kingRow + 1][kingCol]->getColor() != color)) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol) == false) && 
-			(this->isEmpty(kingRow - 1, kingCol) || this->_figuresArr[kingRow - 1][kingCol]->getColor() != color))||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol + 1) == false) &&
-			(this->isEmpty(kingRow + 1, kingCol + 1) || this->_figuresArr[kingRow + 1][kingCol + 1]->getColor() != color)) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow - 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow - 1, kingCol - 1) == false) &&
-			(this->isEmpty(kingRow - 1, kingCol - 1) || this->_figuresArr[kingRow - 1][kingCol -1]->getColor() != color)) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol + 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol + 1) == false) &&
-			(this->isEmpty(kingRow, kingCol + 1) || this->_figuresArr[kingRow][kingCol + 1]->getColor() != color)) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow, kingCol - 1)) == false) &&
-			(this->isEmpty(kingRow, kingCol - 1) || this->_figuresArr[kingRow][kingCol - 1]->getColor() != color) ||
-
-		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol - 1)) == false) &&
-			(this->isEmpty(kingRow + 1, kingCol - 1) || this->_figuresArr[kingRow + 1][kingCol - 1]->getColor() != color))
-	{
+		this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
 		return false;
 	}
 	this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
@@ -364,11 +369,11 @@ bool Board::isCheckmate(const bool color)
 
 				dst = this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()];
 				src = this->_figuresArr[i][j];
-				if (this->_figuresArr[i][j]->getColor() == color && this->_figuresArr[i][j]->isValidMove(attackingFigure->getRow(), attackingFigure->getCol()) == VALID_MOVE)
+				if (this->_figuresArr[i][j]->getType() != KING && this->_figuresArr[i][j]->getColor() == color && j != attackingFigure->getCol() && i != attackingFigure->getRow() && this->_figuresArr[i][j]->isValidMove(attackingFigure->getRow(), attackingFigure->getCol()) == VALID_MOVE)
 				{
 					this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[i][j];
 					this->_figuresArr[i][j] = nullptr;
-					this->getKingRowAndCol(!this->_whiteOrBlack, &kingRow, &kingCol);
+
 					if (this->isShah(color, kingRow, kingCol) == false)
 					{
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = dst;
@@ -393,7 +398,7 @@ bool Board::isCheckmate(const bool color)
 	{
 		lower = kingRow < attackingFigure->getRow() ? kingRow : attackingFigure->getRow();
 		bigger = lower + abs(kingRow - attackingFigure->getRow());
-		for (i = lower; i++; i < bigger)
+		for (i = lower; i < bigger; i++)
 		{
 			for (j = 0; j < SIZE; j++)
 			{
@@ -409,8 +414,8 @@ bool Board::isCheckmate(const bool color)
 						src = this->_figuresArr[j][k];
 						this->_figuresArr[i][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
-						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, attackingFigure->getCol()) == VALID_MOVE)
-						{
+						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, attackingFigure->getCol()) == VALID_MOVE)
+						{ 
 							this->_figuresArr[i][attackingFigure->getCol()] = dst;
 							this->_figuresArr[j][k] = src;
 							this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
@@ -428,7 +433,7 @@ bool Board::isCheckmate(const bool color)
 	{
 		lower = kingRow < attackingFigure->getRow() ? kingRow : attackingFigure->getRow();
 		bigger = lower + abs(kingRow - attackingFigure->getRow());
-		for (i = lower; i++; i < bigger)
+		for (i = lower; i < bigger; i++)
 		{
 			for (j = 0; j < SIZE; j++)
 			{
@@ -443,7 +448,7 @@ bool Board::isCheckmate(const bool color)
 						this->_figuresArr[attackingFigure->getRow()][i] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
 
-						if (src->getColor() == color && src->getType() != KING && src->isValidMove(attackingFigure->getRow(), i) == VALID_MOVE)
+						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(attackingFigure->getRow(), i) == VALID_MOVE)
 						{
 							this->_figuresArr[attackingFigure->getRow()][i] = dst;
 							this->_figuresArr[j][k] = src;
@@ -486,7 +491,7 @@ bool Board::isCheckmate(const bool color)
 						src = this->_figuresArr[k][l];
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
-						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
+						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
 							this->_figuresArr[i][j] = dst;
 							this->_figuresArr[k][l] = src;
@@ -522,7 +527,7 @@ bool Board::isCheckmate(const bool color)
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
 
-						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
+						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
 							this->_figuresArr[i][j] = dst;
 							this->_figuresArr[k][l] = src;
