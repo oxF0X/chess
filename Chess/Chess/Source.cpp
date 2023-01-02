@@ -1,6 +1,6 @@
 /*
 This file servers as an example of how to use Pipe.h file.
-It is recommended to use the following code in your project, 
+It is recommended to use the following code in your project,
 in order to read and write information from and to the Backend
 */
 
@@ -24,8 +24,8 @@ void main()
 	//"r##k##nr################################################R#BK###R0"
 	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
 	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
-	//////////std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
-	std::string map = "########pppppppp################################PPPPPPPP########0";
+	std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
+	//std::string map = "########pppppppp################################PPPPPPPP########0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 
@@ -45,18 +45,18 @@ void main()
 			Sleep(5000);
 			isConnect = p.connect();
 		}
-		else 
+		else
 		{
 			p.close();
 			return;
 		}
 	}
-	
+
 
 	char msgToGraphics[1024];
-	
+
 	strcpy_s(msgToGraphics, map.c_str()); // just example...
-	
+
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
 	// get message from graphics
@@ -70,8 +70,8 @@ void main()
 		std::cout << "Code from board: " << code << std::endl;
 
 		// return result to graphics		
-		p.sendMessageToGraphics(msgToGraphics);  
- 
+		p.sendMessageToGraphics(msgToGraphics);
+
 
 		// get message from graphics
 		msgFromGraphics = p.getMessageFromGraphics();
