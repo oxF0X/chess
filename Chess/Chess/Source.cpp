@@ -24,8 +24,8 @@ void main()
 	//"r##k##nr################################################R#BK###R0"
 	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
 	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
-	//////////std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
-	std::string map = "########pppppppp################################PPPPPPPP########0";
+	std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
+	//std::string map = "########pppppppp################################PPPPPPPP########0";
 	//reverse(map.begin(), map.end());
 	//map += "0";
 
