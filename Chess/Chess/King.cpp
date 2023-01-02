@@ -52,7 +52,7 @@ int King::isValidMove(const int& row, const int& col)
 		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][7]);
 		r->_isFirstMove = false;
 		this->_isFirstMove = false;
-		this->setLocation(6, this->_row);
+		this->setLocation(5, this->_row);
 		return VALID_MOVE;
 	}
 
@@ -82,7 +82,7 @@ int King::isValidMove(const int& row, const int& col)
 		this->_boardPtr->_whiteOrBlack = !this->_boardPtr->_whiteOrBlack;
 		r = dynamic_cast<Rook*>(this->_boardPtr->_figuresArr[this->_row][0]);
 		r->_isFirstMove = false;
-		this->setLocation(this->_row, 2);
+		this->setLocation(this->_row, 1);
 		this->_isFirstMove = false;
 		return VALID_MOVE;
 	}
