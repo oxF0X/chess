@@ -106,7 +106,7 @@ int Board::move(std::string location)
 			}
 			else
 			{
-				this->_figuresArr[dstRow][dstCol] = srcFigure; // basic case...
+				this->_figuresArr[dstRow][dstCol] = srcFigure; // pawn didn't reach the end of the board
 			}
 		}
 		else if(this->_figuresArr[srcRow][srcCol]->getType() != PAWN) // if not pawn than just move figures to the correct places
@@ -140,7 +140,7 @@ int Board::move(std::string location)
 		{
 			kingRow = this->_blackKingRow;
 			kingCol = this->_blackKingCol;
-		}
+	    	}
 		else
 		{
 			kingRow = this->_whiteKingRow;
@@ -149,10 +149,11 @@ int Board::move(std::string location)
 		if (this->isShah(!this->_whiteOrBlack, kingRow, kingCol) == true) // checking if the move couse shah to the other playes
 		{
 			code = VALID_MOVE_SHAH_ON_OPPONENT;
-			if (this->isCheckmate(!this->_whiteOrBlack))
-			{
-				code = CHECKMATE;
-			}
+			//if (this->isCheckmate(!this->_whiteOrBlack))
+			//{
+			//	code = CHECKMATE;
+			//}
+			//this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
 		}
 		else
 		{
@@ -192,6 +193,7 @@ bool Board::isShah(const bool blackOrWhite, int row, int col)
 {
 	int i, j, size, kingRow, kingCol, tmpCol, tmpRow;
 	bool isShah = false;
+	this->_attackingFigures.clear();
 	for (i = 0; i < SIZE; i++)
 	{
 		for (j = 0; j < SIZE; j++)
@@ -281,8 +283,10 @@ Figure* Board::charToFigure(char f, const int& row, const int& col)
 
 bool Board::isCheckmate(const bool color)
 {
-	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger;
-	Figure* attackingFigure;
+	int kingRow, kingCol, i, j, k, l, tmpRow, tmpCol, lower, bigger, size = this->_attackingFigures.size();
+	Figure* attackingFigure = this->_attackingFigures[0];
+	Figure* src = nullptr;
+    Figure*	dst = nullptr;
 	if (this->_whiteOrBlack == WHITE) // get king's location
 	{
 		kingRow = this->_blackKingRow;
@@ -317,10 +321,9 @@ bool Board::isCheckmate(const bool color)
 		(this->_figuresArr[kingRow][kingCol]->isValidMove(kingRow + 1, kingCol - 1) == VALID_MOVE && (this->isShah(color, kingRow + 1, kingCol - 1)) == false) &&
 			(this->isEmpty(kingRow + 1, kingCol - 1) || this->_figuresArr[kingRow + 1][kingCol - 1]->getColor() != color))
 	{
-		this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
 		return false;
 	}
-	attackingFigure = this->_attackingFigures[0];
+	this->_figuresArr[kingRow][kingCol]->setLocation(kingRow, kingCol);
 
 	for (i = 0; i < SIZE; i++) //check if we can eat the attacking figure
 	{
@@ -330,16 +333,39 @@ bool Board::isCheckmate(const bool color)
 			{
 				tmpCol = this->_figuresArr[i][j]->getCol();
 				tmpRow = this->_figuresArr[i][j]->getRow();
+
+				dst = this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()];
+				src = this->_figuresArr[i][j];
 				if (this->_figuresArr[i][j]->getColor() == color && this->_figuresArr[i][j]->isValidMove(attackingFigure->getRow(), attackingFigure->getCol()) == VALID_MOVE)
 				{
+					this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[i][j];
+					this->_figuresArr[i][j] = nullptr;
+					if (this->_whiteOrBlack == WHITE) // get king's location
+					{
+						kingRow = this->_blackKingRow;
+						kingCol = this->_blackKingCol;
+					}
+					else
+					{
+						kingRow = this->_whiteKingRow;
+						kingCol = this->_whiteKingCol;
+					}
+					if (this->isShah(color, kingRow, kingCol) == false)
+					{
+						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = dst;
+						this->_figuresArr[i][j] = src;
+						this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
+						return false;
+					}
+					this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = dst;
+					this->_figuresArr[i][j] = src;
 					this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
-					return false;
 				}
 			}
 		}
 	}
 
-	if (attackingFigure->getType() == KNIGHT || this->_attackingFigures.size() > 1) // if there is more than one attacking figures its a shah or if its knight
+	if (attackingFigure->getType() == KNIGHT || size > 1) // if there is more than one attacking figures its a shah or if its knight
 	{
 		return true;
 	}
@@ -356,13 +382,24 @@ bool Board::isCheckmate(const bool color)
 				{
 					if (this->_figuresArr[j][k] != nullptr)
 					{
+
 						tmpCol = this->_figuresArr[j][k]->getCol();
 						tmpRow = this->_figuresArr[j][k]->getRow();
-						if (this->_figuresArr[j][k]->getColor() == color && this->_figuresArr[j][k]->isValidMove(i, attackingFigure->getCol()) == VALID_MOVE)
+
+						dst = this->_figuresArr[i][attackingFigure->getCol()];
+						src = this->_figuresArr[j][k];
+						this->_figuresArr[i][attackingFigure->getCol()] = this->_figuresArr[j][k];
+						this->_figuresArr[j][k] = nullptr;
+						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, attackingFigure->getCol()) == VALID_MOVE)
 						{
-							this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
+							this->_figuresArr[i][attackingFigure->getCol()] = dst;
+							this->_figuresArr[j][k] = src;
+							this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
 							return false;
 						}
+						this->_figuresArr[i][attackingFigure->getCol()] = dst;
+						this->_figuresArr[j][k] = src;
+						this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
 					}
 				}
 			}
@@ -382,11 +419,21 @@ bool Board::isCheckmate(const bool color)
 					{
 						tmpCol = this->_figuresArr[j][k]->getCol();
 						tmpRow = this->_figuresArr[j][k]->getRow();
-						if (this->_figuresArr[j][k]->getColor() == color && this->_figuresArr[j][k]->isValidMove(attackingFigure->getRow(), k) == VALID_MOVE)
+						dst = this->_figuresArr[attackingFigure->getRow()][i];
+						src = this->_figuresArr[j][k];
+						this->_figuresArr[attackingFigure->getRow()][i] = this->_figuresArr[j][k];
+						this->_figuresArr[j][k] = nullptr;
+
+						if (src->getColor() == color && src->getType() != KING && src->isValidMove(attackingFigure->getRow(), i) == VALID_MOVE)
 						{
-							this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
+							this->_figuresArr[attackingFigure->getRow()][i] = dst;
+							this->_figuresArr[j][k] = src;
+							this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
 							return false;
 						}
+						this->_figuresArr[attackingFigure->getRow()][i] = dst;
+						this->_figuresArr[j][k] = src;
+						this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
 					}
 				}
 			}
@@ -413,13 +460,24 @@ bool Board::isCheckmate(const bool color)
 				{
 					if (this->_figuresArr[k][l] != nullptr)
 					{
+
 						tmpCol = this->_figuresArr[k][l]->getCol();
 						tmpRow = this->_figuresArr[k][l]->getRow();
-						if (this->_figuresArr[k][l]->getColor() == color && this->_figuresArr[k][l]->isValidMove(i, j) == VALID_MOVE)
+						dst = this->_figuresArr[i][j];
+						src = this->_figuresArr[k][l];
+						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
+						this->_figuresArr[j][k] = nullptr;
+						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
+							this->_figuresArr[i][j] = dst;
+							this->_figuresArr[k][l] = src;
 							this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
+
 							return false;
 						}
+						this->_figuresArr[i][j] = dst;
+						this->_figuresArr[k][l] = src;
+						this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
 					}
 				}
 			}
@@ -437,13 +495,24 @@ bool Board::isCheckmate(const bool color)
 				{
 					if (this->_figuresArr[k][l] != nullptr)
 					{
+
 						tmpCol = this->_figuresArr[k][l]->getCol();
 						tmpRow = this->_figuresArr[k][l]->getRow();
-						if (this->_figuresArr[k][l]->getColor() == color && this->_figuresArr[k][l]->isValidMove(i, j) == VALID_MOVE)
+						dst = this->_figuresArr[i][j];
+						src = this->_figuresArr[k][l];
+						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
+						this->_figuresArr[j][k] = nullptr;
+
+						if (src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
+							this->_figuresArr[i][j] = dst;
+							this->_figuresArr[k][l] = src;
 							this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
 							return false;
 						}
+						this->_figuresArr[i][j] = dst;
+						this->_figuresArr[k][l] = src;
+						this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
 					}
 				}
 			}
