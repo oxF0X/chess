@@ -1,14 +1,1 @@
-﻿  Board.cpp
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(211,11): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,27): warning C4101: 'kingCol': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,12): warning C4101: 'size': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(189,18): warning C4101: 'kingRow': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(343,104): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(401,11): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(468,13): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(521,13): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(585,13): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(641,13): warning C4552: '-': result of expression not used
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(343,112): warning C4101: 'tmp2': unreferenced local variable
-C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(343,106): warning C4101: 'tmp1': unreferenced local variable
-  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe
+﻿  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe
