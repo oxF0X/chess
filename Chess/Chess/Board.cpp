@@ -187,31 +187,48 @@ int Board::checkDst(int& row, int& col) const
 bool Board::isShah(const bool blackOrWhite, int row, int col)
 {
 	int i, j, size, kingRow, kingCol, tmpCol, tmpRow;
-	bool isShah = false;
+	bool isShah = false, rook, pawn, king;
 	this->_attackingFigures.clear();
 	for (i = 0; i < SIZE; i++)
 	{
 		for (j = 0; j < SIZE; j++)
 		{
-			if (this->_figuresArr[i][j] != nullptr)
+			if (this->_figuresArr[i][j] != nullptr && this->_figuresArr[i][j]->getColor() != blackOrWhite)
 			{
 				tmpCol = this->_figuresArr[i][j]->getCol();
 				tmpRow = this->_figuresArr[i][j]->getRow();
-				if (this->_figuresArr[i][j]->getColor() != blackOrWhite && this->_figuresArr[i][j]->isValidMove(row, col) == VALID_MOVE)
+
+				pawn = false;
+				king = false;
+				rook = false;
+			
+				if(this->_figuresArr[i][j]->getType() == PAWN && dynamic_cast<Pawn*>(this->_figuresArr[i][j])->isFirstMove())
+				{
+					pawn = true;
+				}
+				else if (this->_figuresArr[i][j]->getType() == ROOK && dynamic_cast<Rook*>(this->_figuresArr[i][j])->isFirstMove())
+				{
+					rook - true;
+				}
+				else if (this->_figuresArr[i][j]->getType() == KING && dynamic_cast<King*>(this->_figuresArr[i][j])->isFirstMove())
+				{
+					king = true;
+				}
+				if (this->_figuresArr[i][j]->isValidMove(row, col) == VALID_MOVE)
 				{
 					this->_figuresArr[i][j]->setLocation(tmpRow, tmpCol);
 					this->_attackingFigures.push_back(this->_figuresArr[i][j]);
-					if (this->_figuresArr[i][j]->getType() == PAWN && dynamic_cast<Pawn*>(this->_figuresArr[i][j])->isFirstMove())
+					if (this->_figuresArr[i][j]->getType() == PAWN)
 					{
-						dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(true);
+						dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
 					}
-					if (this->_figuresArr[i][j]->getType() == ROOK && dynamic_cast<Rook*>(this->_figuresArr[i][j])->isFirstMove())
+					if (this->_figuresArr[i][j]->getType() == ROOK)
 					{
-						dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(true);
+						dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
 					}
-					if (this->_figuresArr[i][j]->getType() == KING && dynamic_cast<King*>(this->_figuresArr[i][j])->isFirstMove())
+					if (this->_figuresArr[i][j]->getType() == KING)
 					{
-						dynamic_cast<King*>(this->_figuresArr[i][j])->setFirstMove(true);
+						dynamic_cast<King*>(this->_figuresArr[i][j])->setFirstMove(king);
 					}
 					isShah = true;
 				}
@@ -327,6 +344,7 @@ bool Board::isCheckmate(const bool color)
 	Figure* attackingFigure = this->_attackingFigures[0];
 	Figure* src = nullptr;
     Figure*	dst = nullptr;
+	bool king, pawn, rook;
 	this->getKingRowAndCol(!this->_whiteOrBlack, &kingRow, &kingCol);
 
 	if ((this->isEmpty(kingRow - 1, kingCol + 1) || this->_figuresArr[kingRow - 1][kingCol + 1]->getColor() != color) &&
@@ -369,10 +387,32 @@ bool Board::isCheckmate(const bool color)
 
 				dst = this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()];
 				src = this->_figuresArr[i][j];
+
+				pawn = false;
+				king = false;
+				rook = false;
+
+				if (src->getType() == PAWN && dynamic_cast<Pawn*>(src)->isFirstMove())
+				{
+					pawn = true;
+				}
+				else if (src->getType() == ROOK && dynamic_cast<Rook*>(src)->isFirstMove())
+				{
+					rook - true;
+				}
+\
 				if (this->_figuresArr[i][j]->getType() != KING && this->_figuresArr[i][j]->getColor() == color && j != attackingFigure->getCol() && i != attackingFigure->getRow() && this->_figuresArr[i][j]->isValidMove(attackingFigure->getRow(), attackingFigure->getCol()) == VALID_MOVE)
 				{
 					this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[i][j];
 					this->_figuresArr[i][j] = nullptr;
+					if (src->getType() == PAWN)
+					{
+						dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
+					}
+					if (src->getType() == ROOK)
+					{
+						dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
+					}
 
 					if (this->isShah(color, kingRow, kingCol) == false)
 					{
@@ -414,12 +454,36 @@ bool Board::isCheckmate(const bool color)
 						src = this->_figuresArr[j][k];
 						this->_figuresArr[i][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
+
+						pawn = false;
+						king = false;
+						rook = false;
+
+						if (src->getType() == PAWN && dynamic_cast<Pawn*>(src)->isFirstMove())
+						{
+							pawn = true;
+						}
+						else if (src->getType() == ROOK && dynamic_cast<Rook*>(src)->isFirstMove())
+						{
+							rook - true;
+						}
 						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, attackingFigure->getCol()) == VALID_MOVE)
 						{ 
-							this->_figuresArr[i][attackingFigure->getCol()] = dst;
-							this->_figuresArr[j][k] = src;
-							this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
-							return false;
+							if (src->getType() == PAWN)
+							{
+								dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
+							}
+							if (src->getType() == ROOK)
+							{
+								dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
+							}
+							if (this->isShah(color, kingRow, kingCol) == false)
+							{
+								this->_figuresArr[i][attackingFigure->getCol()] = dst;
+								this->_figuresArr[j][k] = src;
+								this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
+								return false;
+							}
 						}
 						this->_figuresArr[i][attackingFigure->getCol()] = dst;
 						this->_figuresArr[j][k] = src;
@@ -448,12 +512,32 @@ bool Board::isCheckmate(const bool color)
 						this->_figuresArr[attackingFigure->getRow()][i] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
 
+						if (src->getType() == PAWN && dynamic_cast<Pawn*>(src)->isFirstMove())
+						{
+							pawn = true;
+						}
+						else if (src->getType() == ROOK && dynamic_cast<Rook*>(src)->isFirstMove())
+						{
+							rook - true;
+						}
+
 						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(attackingFigure->getRow(), i) == VALID_MOVE)
 						{
-							this->_figuresArr[attackingFigure->getRow()][i] = dst;
-							this->_figuresArr[j][k] = src;
-							this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
-							return false;
+							if (src->getType() == PAWN)
+							{
+								dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
+							}
+							if (src->getType() == ROOK)
+							{
+								dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
+							}
+							if (this->isShah(color, kingRow, kingCol) == false)
+							{
+								this->_figuresArr[attackingFigure->getRow()][i] = dst;
+								this->_figuresArr[j][k] = src;
+								this->_figuresArr[j][k]->setLocation(tmpRow, tmpCol);
+								return false;
+							}
 						}
 						this->_figuresArr[attackingFigure->getRow()][i] = dst;
 						this->_figuresArr[j][k] = src;
@@ -491,11 +575,32 @@ bool Board::isCheckmate(const bool color)
 						src = this->_figuresArr[k][l];
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
+
+						if (src->getType() == PAWN && dynamic_cast<Pawn*>(src)->isFirstMove())
+						{
+							pawn = true;
+						}
+						else if (src->getType() == ROOK && dynamic_cast<Rook*>(src)->isFirstMove())
+						{
+							rook - true;
+						}
+
 						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
-							this->_figuresArr[i][j] = dst;
-							this->_figuresArr[k][l] = src;
-							this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
+							if (src->getType() == PAWN)
+							{
+								dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
+							}
+							if (src->getType() == ROOK)
+							{
+								dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
+							}
+							if (this->isShah(color, kingRow, kingCol) == false)
+							{
+								this->_figuresArr[i][j] = dst;
+								this->_figuresArr[k][l] = src;
+								this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
+							}
 
 							return false;
 						}
@@ -527,12 +632,32 @@ bool Board::isCheckmate(const bool color)
 						this->_figuresArr[attackingFigure->getRow()][attackingFigure->getCol()] = this->_figuresArr[j][k];
 						this->_figuresArr[j][k] = nullptr;
 
+						if (src->getType() == PAWN && dynamic_cast<Pawn*>(src)->isFirstMove())
+						{
+							pawn = true;
+						}
+						else if (src->getType() == ROOK && dynamic_cast<Rook*>(src)->isFirstMove())
+						{
+							rook - true;
+						}
+
 						if (src->getType() != KING && src->getColor() == color && src->getType() != KING && src->isValidMove(i, j) == VALID_MOVE)
 						{
-							this->_figuresArr[i][j] = dst;
-							this->_figuresArr[k][l] = src;
-							this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
-							return false;
+							if (src->getType() == PAWN)
+							{
+								dynamic_cast<Pawn*>(this->_figuresArr[i][j])->setFirstMove(pawn);
+							}
+							if (src->getType() == ROOK)
+							{
+								dynamic_cast<Rook*>(this->_figuresArr[i][j])->setFirstMove(rook);
+							}
+							if (this->isShah(color, kingRow, kingCol) == false)
+							{
+								this->_figuresArr[i][j] = dst;
+								this->_figuresArr[k][l] = src;
+								this->_figuresArr[k][l]->setLocation(tmpRow, tmpCol);
+								return false;
+							}
 						}
 						this->_figuresArr[i][j] = dst;
 						this->_figuresArr[k][l] = src;
