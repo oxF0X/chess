@@ -1,1 +1,13 @@
-﻿  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe
+﻿  Board.cpp
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(191,27): warning C4101: 'kingCol': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(191,12): warning C4101: 'size': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(191,18): warning C4101: 'kingRow': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(345,104): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(403,11): warning C4552: '-': result of expression not used
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(470,13): warning C4552: '-': result of expression not used
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(523,13): warning C4552: '-': result of expression not used
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(587,13): warning C4552: '-': result of expression not used
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(643,13): warning C4552: '-': result of expression not used
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(345,112): warning C4101: 'tmp2': unreferenced local variable
+C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\Chess\Board.cpp(345,106): warning C4101: 'tmp1': unreferenced local variable
+  Chess.vcxproj -> C:\Users\natal\Documents\magshimim\advanced_programing\chess_project\chess\Chess\x64\Debug\Chess.exe

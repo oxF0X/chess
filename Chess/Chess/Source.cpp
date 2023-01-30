@@ -20,14 +20,7 @@ void main()
 {
 	system("Start chessGraphics.exe");
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-	// srand(time_t(NULL));
-	//"r##k##nr################################################R#BK###R0"
-	//std::string map = "RNBQKBNRP##############################################prnbqkbnr0";
-	//rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0
 	std::string map = "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0";
-	//std::string map = "########pppppppp################################PPPPPPPP########0";
-	//reverse(map.begin(), map.end());
-	//map += "0";
 
 	Pipe p;
 	Board board = Board::getBoard(map);

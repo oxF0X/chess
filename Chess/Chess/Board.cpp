@@ -12,6 +12,7 @@ Board::Board(std::string toolsMap)
 	toolsMap.pop_back();
 	this->_isCastling = false;
 	this->_isEnPassent = false;
+
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
@@ -25,7 +26,7 @@ Board::Board(std::string toolsMap)
 			}
 			if (figure == KING)
 			{
-				this->_blackKingCol = j; // setting black king's locatio
+				this->_blackKingCol = j; // setting black king's location
 				this->_blackKingRow = i;
 			}
 		}
@@ -63,7 +64,7 @@ int Board::move(std::string location)
 	Figure* srcFigure = nullptr;
 	Figure* dstFigure = nullptr; 
 	int srcCol = ((int)(location[0])) - A_ASCII_CODE; // translate location letter to int
-	int srcRow = ((int)location[1]) - ONE_ASCII_CODE; // traanslate cahr to int
+	int srcRow = ((int)location[1]) - ONE_ASCII_CODE; // translate char to int
 	int dstCol = ((int)(location[2])) - A_ASCII_CODE;
 	int dstRow = ((int)location[3]) - ONE_ASCII_CODE;
 	int kingRow, kingCol, code;
@@ -95,6 +96,7 @@ int Board::move(std::string location)
 		this->_figuresArr[dstRow][dstCol]->setLocation(dstRow, dstCol); // changes rook object's location
 		return VALID_MOVE;
 	}
+
 	srcFigure = this->getSrcFigure(srcRow, srcCol); // get the figure that is going to be moved
 	if (srcFigure == nullptr) // if no source than nothiing to move
 	{
@@ -208,7 +210,7 @@ bool Board::isShah(const bool blackOrWhite, int row, int col)
 				}
 				else if (this->_figuresArr[i][j]->getType() == ROOK && dynamic_cast<Rook*>(this->_figuresArr[i][j])->isFirstMove())
 				{
-					rook - true;
+					rook = true;
 				}
 				else if (this->_figuresArr[i][j]->getType() == KING && dynamic_cast<King*>(this->_figuresArr[i][j])->isFirstMove())
 				{
